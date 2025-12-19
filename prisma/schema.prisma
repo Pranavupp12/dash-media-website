@@ -1,0 +1,75 @@
+generator client {
+      provider = "prisma-client-js"
+    }
+
+    datasource db {
+      provider = "mongodb"
+      url      = env("DATABASE_URL")
+    }
+
+    model User {
+      id        String   @id @default(auto()) @map("_id") @db.ObjectId
+      email     String   @unique
+      password  String
+      name      String?
+      role      String   @default("EDITOR")
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt
+    }
+
+    model Blog {
+      id              String   @id @default(auto()) @map("_id") @db.ObjectId
+      category        String
+      metaTitle       String
+      metaDescription String
+      metaKeywords    String
+      blogUrl         String   @unique // This will be the page slug
+      headline        String
+      content         String
+      imageUrl        String?
+      imagePath       String? 
+      authorName      String
+      createdAt       DateTime @default(now())
+      updatedAt       DateTime @updatedAt
+    }
+
+    model ConsultationRequest {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  email        String
+  mobileNumber String
+  requirements String
+  websiteUrl   String?
+  service      String? 
+  createdAt    DateTime @default(now())
+}
+
+model JobPosting {
+
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  department  String
+  location    String
+  type        String   
+  description String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  applications JobApplication[]
+}
+
+model JobApplication {
+
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String   @db.ObjectId
+  job         JobPosting @relation(fields: [jobId], references: [id])
+  fullName    String
+  email       String
+  phone       String
+  resumeUrl   String   
+  coverLetter String?
+  
+  status      String   @default("PENDING") 
+  createdAt   DateTime @default(now())
+
+}
