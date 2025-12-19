@@ -40,14 +40,14 @@ export function JobActionButtons({ job }: { job: any }) {
   return (
     <>
       <div className="flex gap-2 mt-2">
-        <Button variant="outline" size="sm" onClick={() => setIsEditOpen(true)} className="h-8 w-8 p-0">
+        <Button variant="outline" size="sm" onClick={() => setIsEditOpen(true)} className="h-8 w-8 p-0 border-none shadow-none text-blue-500 hover:text-blue-500 hover:bg-gray-200">
           <Pencil className="h-4 w-4" />
         </Button>
         <Button 
             variant="outline" 
             size="sm" 
             onClick={() => setIsDeleteOpen(true)} 
-            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+            className="h-8 w-8 p-0 border-none shadow-none text-red-500 hover:text-red-500 hover:bg-gray-200 "
         >
           <Trash2 className="h-4 w-4" />
         </Button>

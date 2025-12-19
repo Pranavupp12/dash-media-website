@@ -31,7 +31,7 @@ export function JobDetailsModal({ job }: { job: any }) {
         </DialogHeader>
         
         {/* Scrollable Body */}
-        <ScrollArea className="flex-1 pr-4 -mr-4 min-h-[200px]">
+        <ScrollArea className="flex-1 overflow-y-auto py-4 pr-2 ">
             <div className="py-4 space-y-4">
                 
                 {/* 2. Job Title */}

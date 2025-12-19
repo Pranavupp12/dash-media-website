@@ -30,7 +30,7 @@ function CoverLetterModal({ text }: { text: string | null }) {
         <DialogHeader>
           <DialogTitle>Cover Letter</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="flex-1 -mr-4 pr-4 mt-2">
+        <ScrollArea className="flex-1 overflow-y-auto mt-2 pr-2">
            <div className="text-sm leading-relaxed whitespace-pre-wrap text-muted-foreground">
               {text}
            </div>
@@ -60,7 +60,7 @@ export function ViewApplicationModal({ application }: ApplicationProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="hover:bg-blue-50 hover:text-blue-600">
+        <Button variant="ghost" size="icon" className=" text-blue-500 hover:bg-blue-50 hover:text-blue-600">
           <Eye className="w-4 h-4" />
         </Button>
       </DialogTrigger>

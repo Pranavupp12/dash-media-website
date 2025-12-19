@@ -9,6 +9,7 @@ import {
 import { BlogForm } from "./BlogForm";
 import { type Blog } from "@prisma/client";
 
+
 interface UpdateBlogModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;

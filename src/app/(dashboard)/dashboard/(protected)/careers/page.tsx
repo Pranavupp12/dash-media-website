@@ -104,11 +104,6 @@ export default async function AdminCareersPage() {
                         <TableRow key={app.id}>
                             <TableCell className="font-medium">
                                 {app.fullName}
-                                {app.coverLetter && (
-                                    <div className="text-xs text-muted-foreground mt-1 max-w-xs truncate" title={app.coverLetter}>
-                                        "{app.coverLetter}"
-                                    </div>
-                                )}
                             </TableCell>
                             <TableCell>
                                 <Badge variant="outline">{app.job?.title || "Unknown"}</Badge>

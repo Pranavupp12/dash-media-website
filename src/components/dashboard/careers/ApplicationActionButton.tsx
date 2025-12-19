@@ -79,7 +79,7 @@ export function ApplicationActionButtons({ candidateEmail, candidateName, jobTit
         <Button 
           variant="outline" 
           size="icon" 
-          className="h-8 w-8 text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700 hover:border-green-300"
+          className="h-8 w-8 border-none shadow-none text-green-500 hover:bg-green-200 hover:text-green-700"
           onClick={() => handleOpen('ACCEPT')}
           title="Accept & Send Next Steps"
         >
@@ -90,7 +90,7 @@ export function ApplicationActionButtons({ candidateEmail, candidateName, jobTit
         <Button 
           variant="outline" 
           size="icon" 
-          className="h-8 w-8 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
+          className="h-8 w-8 border-none shadow-none text-red-500 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
           onClick={() => handleOpen('REJECT')}
           title="Reject & Send Regret Mail"
         >

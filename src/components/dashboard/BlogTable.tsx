@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { type Blog } from "@prisma/client";
-import { UpdateBlogModal } from "./UpdateBlogModal"; // 👈 Import Update Modal
-import { DeleteBlogModal } from "./DeleteBlogModal"; // 👈 Import Delete Modal
+import { UpdateBlogModal } from "./UpdateBlogModal"; 
+import { DeleteBlogModal } from "./DeleteBlogModal"; 
+import { Pencil, Trash2} from "lucide-react";
 
 
 // ✅ 1. Helper function to format the date
@@ -70,8 +71,8 @@ export function BlogTable({ onRefresh }: { onRefresh: () => void }) {
                   <TableCell>{blog.authorName}</TableCell>
                   <TableCell>{blog.category}</TableCell>
                   <TableCell className="text-right space-x-2">
-                    <Button variant="outline" size="sm" onClick={() => handleUpdateClick(blog)}>Update</Button>
-                    <Button variant="destructive" size="sm" onClick={() => handleDeleteClick(blog)}>Delete</Button>
+                    <Button variant="outline" size="sm" className="border-none shadow-none text-blue-500 hover:text-blue-500 hover:bg-gray-200" onClick={() => handleUpdateClick(blog)}><Pencil className="h-5 w-5 "/></Button>
+                    <Button variant="destructive" size="sm" className="border-none shadow-none text-red-500 bg-transparent hover:bg-gray-200" onClick={() => handleDeleteClick(blog)}><Trash2 className="h-5 w-5 "/></Button>
                   </TableCell>
                 </TableRow>
               ))
