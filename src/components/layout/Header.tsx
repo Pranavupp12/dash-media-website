@@ -120,6 +120,7 @@ export function Header() {
                             width={200}
                             height={30}
                             priority
+                            fetchPriority="high"
                             className="h-15 w-auto object-contain"
                         />
                     </Link>
