@@ -1,7 +1,22 @@
 import { PrismaClient } from '@prisma/client';
 import { BlogCard } from '@/components/blog/BlogCard';
 import { PaginationControls } from '@/components/ui/PaginationControls';
-import { BlogCategoryFilter } from '@/components/blog/BlogCategoryFilter'; // ✅ Import Filter Component
+import { BlogCategoryFilter } from '@/components/blog/BlogCategoryFilter';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog", // Optional: Keep your title if you want
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 const prisma = new PrismaClient();
 const BLOGS_PER_PAGE = 6;
