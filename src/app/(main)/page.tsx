@@ -6,6 +6,7 @@ import { NewHero } from "@/components/sections/NewHero";
 import { TeamSkills } from "@/components/sections/TeamSkills";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { BlogSection } from "@/components/sections/BlogSection";
+import { MarqueeSeparator } from "@/components/ui/marquee-separator";
 
 export const revalidate = 1800; // Revalidate every 30 minutes
 
@@ -14,11 +15,13 @@ export default function Home() {
     <>
       <NewHero />
       <ClientLogos />
-      <TeamSkills />
-      <Stats />
+      {/*<TeamSkills />
+      <Stats />*/}
+      <MarqueeSeparator />
       <ServicesSection />
       <Testimonials/>
       <BlogSection />
+      <MarqueeSeparator />
       <AnimatedHero />
     </>
   );

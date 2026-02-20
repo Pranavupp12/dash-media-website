@@ -1,0 +1,140 @@
+'use client';
+
+import * as React from "react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Mockup, MockupFrame } from "@/components/ui/mockup";
+import { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { useModal } from "@/components/providers/ModalProvider";
+import { MarqueeSeparator } from "../ui/marquee-separator";
+
+export function NewHero() {
+  const [titleNumber, setTitleNumber] = useState(0);
+  const { openModal } = useModal();
+  const titles = useMemo(
+    () => ["INNOVATIVE", "IMPACTFUL", "CREATIVE"],
+    []
+  );
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setTitleNumber((prev) => (prev + 1) % titles.length);
+    }, 4000);
+    return () => clearTimeout(timeoutId);
+  }, [titleNumber, titles.length]);
+
+  return (
+    // REMOVED: bg-gradient, pt-25, pb-10 from here. Added w-full.
+    <section className={cn("flex flex-col items-center overflow-hidden w-full")}>
+      
+      {/* --- TOP SECTION WITH BACKGROUND --- */}
+      {/* Added the gradient and padding here */}
+      <div className="w-full bg-blue-50 to-white pt-32 pb-35">
+          <div className="container mx-auto pt-10 px-5 sm:px-10 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+            {/* Left Column: Heading, Description, Button */}
+            <div className="relative z-10 flex flex-col items-center md:items-start text-center md:text-left gap-6 md:gap-8">
+              {/* Heading */}
+              <h1
+                className={cn(
+                  "animate-appear",
+                  "text-5xl lg:text-7xl", 
+                  "font-regular tracking-tight leading-tight",
+                )}
+              >
+                <span className="block text-primary">We Create</span>
+                <span className="relative block h-[1.2em] font-semibold">
+                  {titles.map((title, index) => (
+                    <motion.span
+                      key={index}
+                      className="absolute inset-x-0 lg:inset-x-auto bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient"
+                      style={{ backgroundSize: "300% 100%" }}
+                      initial={{ opacity: 0 }}
+                      animate={titleNumber === index ? { opacity: 1 } : { opacity: 0 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                    >
+                      {title}
+                    </motion.span>
+                  ))}
+                </span>
+                <span className="block text-primary">Digital Solutions</span>
+              </h1>
+
+              {/* Description */}
+              <p
+                className="max-w-xl text-base sm:text-lg md:text-xl text-muted-foreground animate-appear opacity-0 [animation-delay:150ms] px-2 sm:px-0"
+              >
+                Dash Media Solutions is a full-scale digital marketing agency that offers customizable solutions to boost businesses' growth and increase online visibility. 
+              </p>
+
+              {/* CTA Button */}
+              <div className="animate-appear opacity-0 [animation-delay:300ms] w-full sm:w-auto">
+                <Button size="lg" onClick={openModal} className="w-[60%] sm:w-auto">
+                  Schedule a Call <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Column: Single New Image */}
+            <div className="flex items-center justify-center animate-appear opacity-0 [animation-delay:500ms]">
+              <div className="relative w-full aspect-[5/4]">
+                <Image
+                  src="/images/hero-banner-2.png" 
+                  alt="Dash Media Solutions Team and Results"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain" 
+                />
+              </div>
+            </div>
+
+          </div>
+
+      </div>
+
+      {/* --- MARQUEE SEPARATOR --- */}
+      <div className="w-full">
+        <MarqueeSeparator />
+      </div>
+       
+      {/* --- BOTTOM SECTION (LATEST WORK) --- */}
+      {/* No background color here, inherits default (white) */}
+      <div className="w-full pb-10">
+          <div className="px-5 md:px-10 hidden container mx-auto lg:block mt-20 relative animate-appear opacity-0 [animation-delay:500ms]">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-regular font-heading text-primary tracking-tight pb-4 md:pb-8 text-center md:text-left">
+              Our <span
+                className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
+                style={{ backgroundSize: "300% 100%" }}
+              >
+                Latest Work
+              </span>
+            </h2>
+            <MockupFrame>
+              <Mockup type="responsive">
+                <Image
+                  src="/images/dashboard.jpg"
+                  alt="Dash Media SEO Dashboard"
+                  width={1600}
+                  height={1043}
+                  className="h-auto"
+                  priority
+                />
+              </Mockup>
+            </MockupFrame>
+            <div
+              className="absolute bottom-0 left-0 right-0 w-full h-1/2"
+              style={{
+                background: "linear-gradient(to top, hsl(var(--background)) 20%, transparent 100%)",
+                zIndex: 10,
+              }}
+            />
+          </div>
+      </div>
+
+    </section>
+  );
+}

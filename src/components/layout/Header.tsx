@@ -103,14 +103,14 @@ export function Header() {
 
     return (
         <header className={cn(
-            'fixed top-0 z-50 w-full transition-all duration-300',
+            'fixed top-0 z-50 w-full transition-all duration-300 py-2',
             isVisible ? 'translate-y-0' : '-translate-y-full',
             scrolled
-                ? 'bg-gray-50 border-b'
+                ? 'bg-white border-b'
                 : 'bg-blue-50 border-none'
         )}>
 
-            <nav aria-label="Global" className=" flex items-center justify-between lg:px-6 ">
+            <nav aria-label="Global" className=" flex items-center justify-between lg:px-10 ">
                 <div className="flex lg:flex-1">
                     <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-2">
                         <span className="sr-only">Dash Media Solutions</span>

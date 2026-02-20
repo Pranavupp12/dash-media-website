@@ -53,7 +53,7 @@ const socialLinks = {
 
 export function Footer() {
   return (
-    <footer className="py-12 border-t bg-gray-50 dark:bg-zinc-950/50">
+    <footer className="py-12 border-t bg-blue-50 dark:bg-zinc-950/50">
       <div className="mx-auto max-w-6xl px-6 lg:px-0">
         
         {/* Main Grid: Updated to 4 Columns for Company, Services, Links, Social */}

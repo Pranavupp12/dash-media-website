@@ -1,54 +1,94 @@
-"use client"
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { type Blog } from "@prisma/client"
+interface BlogProps {
+  id: string;
+  headline: string;
+  blogUrl: string;
+  imageUrl: string | null;
+  category: string;
+  metaDescription: string;
+  createdAt: Date;
+}
 
-export const BlogCard = ({ blog, className }: { blog: Blog; className?: string }) => {
+// ✅ Added hideDescription prop
+export function BlogCard({ blog, hideDescription = false }: { blog: BlogProps, hideDescription?: boolean }) {
   return (
-    <Link href={`/blog/${blog.blogUrl}`} className="group block">
-      <div className={cn(
-        // Base Layout
-        "relative flex flex-col h-full bg-white dark:bg-zinc-900 overflow-hidden",
-        
-        // ✅ SHARP CORNERS (rounded-none)
-        "rounded-none", 
-        
-        // Neubrutalism Borders & Shadow
-        "border border-gray-200",
-        "shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]",
-        
-        className
-      )}>
-        {/* Image Section */}
-        <div className="relative h-48 w-full overflow-hidden">
-             <img 
-            src={blog.imageUrl || "/placeholder-blog.jpg"} 
+    <Link
+      href={`/blog/${blog.blogUrl}`}
+      className="
+        group relative flex flex-col h-full
+        bg-primary
+        overflow-hidden rounded-xl
+        border border-gray-100/10
+        shadow-sm hover:shadow-xl
+        transition-all duration-300
+        hover:-translate-y-1
+      "
+    >
+      {/* --- Image Section --- */}
+      <div className="relative h-56 w-full overflow-hidden bg-gray-800">
+        {blog.imageUrl ? (
+          <Image
+            src={blog.imageUrl}
             alt={blog.headline}
-            className="h-full w-full object-cover"
+            fill
+            className="object-cover "
           />
-           {/* kept category tag sharp/square to match theme */}
-           <div className="absolute top-2 right-2 bg-[#002766] text-white text-[11px] sm:text-xs font-bold px-2 py-1 ">
-            {blog.category.toUpperCase()}
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-white/50 text-xs">
+            No Image
           </div>
+        )}
+      </div>
+
+      {/* --- Content Section --- */}
+      <div className="flex flex-col flex-grow p-6">
+        
+        {/* Top Row: Category & Date */}
+        <div className="flex items-center justify-between mb-3">
+            <span className="text-[10px] font-bold text-white/70 uppercase tracking-widest">
+              {blog.category} 
+            </span>
+
+            <span className="text-[10px] text-white/70 font-medium uppercase tracking-widest">
+              {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                month: 'short',
+                day: 'numeric'
+              })}
+            </span>
         </div>
 
-        {/* Content Section */}
-        <div className="p-4 flex flex-col flex-1">
-          <h3 className="text-md md:text-lg font-bold leading-snug mb-2 group-hover:underline  underline-offset-4 ">
-            {blog.headline}
-          </h3>
-          
-          <p className="text-xs md:text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3 mb-4 font-medium">
+        {/* Headline */}
+        <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 leading-tight">
+          {blog.headline}
+        </h3>
+
+        {/* Description (Conditionally Rendered) */}
+        {!hideDescription && (
+          <p className="text-white/80 text-sm leading-relaxed mb-6 line-clamp-2">
             {blog.metaDescription}
           </p>
-          
-          <div className="mt-auto flex items-center justify-between text-xs font-bold border-t-2 border-dashed border-zinc-300 dark:border-zinc-700 pt-3 opacity-75">
-            <span>By {blog.authorName}</span>
-            <span>{new Date(blog.createdAt).toLocaleDateString('en-GB')}</span>
+        )}
+
+        {/* --- Footer --- */}
+        <div className="mt-auto flex items-center justify-between border-t border-white/20 pt-4">
+          <span className="text-sm font-bold text-white uppercase tracking-wider">
+            Read Article
+          </span>
+
+          <div className="
+              w-10 h-10 rounded-full 
+              flex items-center justify-center 
+              bg-white text-primary
+              group-hover:scale-110
+              transition-all duration-300
+          ">
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:-rotate-45" />
           </div>
         </div>
       </div>
     </Link>
-  )
+  );
 }

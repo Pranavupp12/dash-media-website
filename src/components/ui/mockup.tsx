@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const mockupVariants = cva(
-  "flex relative z-10 overflow-hidden shadow-2xl border border-border/5 border-t-border/15",
+  "flex relative z-10 overflow-hidden",
   {
     variants: {
       type: {
@@ -33,7 +33,7 @@ const Mockup = React.forwardRef<HTMLDivElement, MockupProps>(
 Mockup.displayName = "Mockup";
 
 const frameVariants = cva(
-  "bg-accent/5 flex relative z-10 overflow-hidden rounded-2xl",
+  "flex relative z-10 overflow-hidden rounded-xl",
   {
     variants: {
       size: {

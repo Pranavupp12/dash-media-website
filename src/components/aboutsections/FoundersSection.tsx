@@ -34,8 +34,8 @@ const foundersData = [
 
 export function FoundersSection() {
   return (
-    <section className="py-15 md:py-24 bg-blue-50">
-      <div className="container mx-auto">
+    <section className="py-20 bg-white ">
+      <div className="container mx-auto px-5 md:px-10">
         <div className="flex flex-col items-center justify-center gap-6 mb-8 md:mb-10 p-5 md:p-0 text-center">
           <div>
             <h2 className="text-4xl md:text-6xl font-regular font-heading text-primary tracking-tighter">

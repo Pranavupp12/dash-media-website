@@ -23,7 +23,7 @@ function AnimatedHero() {
   }, [titleNumber, titles]);
 
   return (
-    <div className="w-full bg-blue-50">
+    <div className="w-full bg-white">
       <div className="container mx-auto">
         <div className="flex flex-col p-5 lg:flex-row gap-5 md:gap-10 items-center lg:items-stretch justify-center py-15 md:py-20 lg:py-25">
 

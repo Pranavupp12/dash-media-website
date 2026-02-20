@@ -1,84 +1,73 @@
-import { PrismaClient } from '@prisma/client';
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
-const prisma = new PrismaClient();
-
-// Helper to format date locally in this component
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  });
-}
-
-// Data fetching function
-async function getLatestBlogs(currentBlogId: string) {
-  const blogs = await prisma.blog.findMany({
-    where: {
-      NOT: {
-        id: currentBlogId
-      }
-    },
-    take: 5,
-    orderBy: {
-      createdAt: 'desc',
-    },
-    select: {
-      id: true,
-      headline: true,
-      blogUrl: true,
-      createdAt: true,
-      category: true,
-      imageUrl: true 
-    }
-  });
-  return blogs;
-}
-
-export async function BlogSidebar({ currentBlogId }: { currentBlogId: string }) {
-  const latestBlogs = await getLatestBlogs(currentBlogId);
-
+export function BlogSidebar({ categories, latestPosts,currentCategory }: { categories: string[], latestPosts: any[], currentCategory?: string }) {
   return (
-    <aside className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 p-6 sticky top-24">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 pb-2 border-b border-gray-100 dark:border-gray-800">
-        Read More
-      </h3>
+    <div className="space-y-16 sticky top-32">
+      {/* Categories Section */}
+     <div>
+    <div className="flex items-center justify-between mb-8 border-b border-black/5 pb-3">
+      <h4 className="text-md font-bold uppercase tracking-[0.2em] text-primary">
+        All Categories
+      </h4>
       
-      <div className="flex flex-col gap-6">
-        {latestBlogs.map((blog) => (
-          <Link key={blog.id} href={`/blog/${blog.blogUrl}`} className="group flex gap-4 items-start">
-            {/* Small Thumbnail */}
-            {blog.imageUrl && (
-              <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                <Image 
-                  src={blog.imageUrl} 
-                  alt={blog.headline} 
-                  fill 
-                  className="object-cover" 
-                />
-              </div>
-            )}
-            
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-medium text-primary dark:text-blue-400">
-                {blog.category}
-              </span>
-              <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:underline underline-offset-4 transition-colors line-clamp-2">
-                {blog.headline}
-              </h4>
-              <time className="text-xs text-gray-500 mt-auto">
-                {formatDate(blog.createdAt)}
-              </time>
-            </div>
-          </Link>
-        ))}
+      {/* ✅ Clear Filter Button (Visible only when a category is active) */}
+      {currentCategory && (
+        <Link 
+          href="/blog" 
+          className="text-sm font-bold uppercase tracking-tighter text-accent hover:text-primary transition-colors"
+        >
+          Clear Filter
+        </Link>
+      )}
+    </div>
 
-        {latestBlogs.length === 0 && (
-            <p className="text-sm text-gray-500">No other posts available.</p>
-        )}
+    <ul className="space-y-4">
+      {categories.map((cat) => (
+        <li key={cat} className="group">
+          <Link 
+            href={`/blog?category=${cat}`} 
+            className={`text-[15px] font-medium transition-colors flex items-center justify-between ${
+              currentCategory === cat ? 'text-accent' : 'text-muted-foreground hover:text-primary'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {/* Optional: Small dot for the active category */}
+              {cat}
+            </div>
+            <ArrowRight className={`w-4 h-4 transition-all ${
+              currentCategory === cat ? 'opacity-100' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'
+            }`} />
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+      {/* Latest Posts Thumbnails */}
+      <div>
+        <h4 className="text-md font-bold uppercase tracking-[0.2em] text-primary mb-6 border-b border-black/10 pb-2">
+          Latest Posts
+        </h4>
+        <div className="space-y-6">
+          {latestPosts.map((post) => (
+            <Link key={post.id} href={`/blog/${post.blogUrl}`} className="flex gap-4 group">
+              <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden">
+                <Image src={post.imageUrl || "/placeholder.jpg"} alt={post.headline} fill className="object-cover" />
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="text-sm font-bold text-muted-foreground mb-1 uppercase tracking-tighter">
+                   {new Date(post.createdAt).toLocaleDateString("en-US", { month: 'long', day: 'numeric' })}
+                </span>
+                <h5 className="text-md font-bold text-primary group-hover:text-accent transition-colors leading-tight line-clamp-2">
+                  {post.headline}
+                </h5>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-    </aside>
+    </div>
   );
 }

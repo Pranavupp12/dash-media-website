@@ -21,6 +21,24 @@ async function getBlogByUrl(blogUrl: string) {
   return blog;
 }
 
+// ✅ New helper for Sidebar Data (Categories)
+async function getCategories() {
+  const categories = await prisma.blog.findMany({
+    select: { category: true },
+    distinct: ['category'],
+  });
+  return categories.map(c => c.category);
+}
+
+// ✅ New helper for Sidebar Data (Latest Posts)
+async function getLatestPosts(currentId: string) {
+  return await prisma.blog.findMany({
+    where: { id: { not: currentId } }, // Don't show the post currently being read
+    take: 3,
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
 function formatDate(date: Date): string {
   return new Date(date).toLocaleDateString('en-US', {
     month: 'long',
@@ -44,46 +62,51 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { blogUrl } = await params;
+  
+  // ✅ Fetch all required data in parallel
   const blog = await getBlogByUrl(blogUrl);
-
+  
   if (!blog) {
     return (
-        <div className="min-h-[50vh] flex flex-col items-center justify-center bg-gray-50">
-            <h1 className="text-4xl font-bold text-gray-900">Post Not Found</h1>
-            <Link href="/" className="mt-4 text-blue-600 hover:underline flex items-center gap-2">
-                <ChevronLeft className="w-4 h-4"/> Return Home
+        <div className="min-h-[50vh] flex flex-col items-center justify-center bg-[#F9F6F0]">
+            <h1 className="text-4xl font-bold text-primary">Post Not Found</h1>
+            <Link href="/blog" className="mt-4 text-accent hover:underline flex items-center gap-2">
+                <ChevronLeft className="w-4 h-4"/> Return to Blog
             </Link>
         </div>
     );
   }
 
+  // ✅ Fetch sidebar data after confirming blog exists
+  const categories = await getCategories();
+  const latestPosts = await getLatestPosts(blog.id);
+
   return (
-    <article className="min-h-screen bg-gray-50 dark:bg-zinc-950 pb-20">
+    <article className="min-h-screen bg-white pb-20">
       
-      {/* --- Header Section --- */}
-      <div className="bg-gradient-to-b from-blue-50 to-gray-50 dark:from-zinc-900 dark:to-zinc-950 border-b border-gray-100 dark:border-gray-800">
-        <div className="container mx-auto px-5 pt-32 sm:pt-35 pb-16 max-w-6xl text-center">
+      {/* --- Header Section (Magazine Style) --- */}
+      <div className="border-b border-black/5 bg-blue-50">
+        <div className="container mx-auto px-5 pt-32 pb-16 max-w-7xl text-center">
           
           <div className="flex items-center justify-center gap-2 mb-6">
-            <Badge variant="secondary" className="px-3 py-1 bg-primary text-white rounded-full text-xs sm:text-sm font-medium border-none">
+            <span className="text-sm font-bold uppercase tracking-[0.3em] text-accent">
                 {blog.category}
-            </Badge>
+            </span>
           </div> 
 
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-50 leading-tight mb-8 max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-7xl font-bold tracking-tighter text-primary leading-[1] mb-10 max-w-5xl mx-auto uppercase">
             {blog.headline}
           </h1>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-gray-500 dark:text-gray-400 text-sm md:text-base">
-            <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 font-bold">
+          <div className="flex flex-wrap items-center justify-center gap-8 text-muted-foreground text-sm font-bold uppercase tracking-widest">
+            <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center">
                     {blog.authorName.charAt(0)}
                 </div>
-                <span className="font-medium text-gray-900 dark:text-gray-200">{blog.authorName}</span>
+                <span className="text-primary">{blog.authorName}</span>
             </div>
-            <div className="hidden sm:block w-1 h-1 rounded-full bg-gray-300" />
             <div className="flex items-center gap-2">
-                <CalendarDays className="w-4 h-4" />
+                <CalendarDays className="w-4 h-4 text-accent" />
                 <time dateTime={blog.createdAt.toISOString()}>
                     {formatDate(blog.createdAt)}
                 </time>
@@ -94,14 +117,14 @@ export default async function BlogPostPage({ params }: Props) {
       </div>
 
       {/* --- Two Column Layout --- */}
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="container mx-auto px-5 sm:px-10 max-w-7xl mt-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             
-            {/* Left Column (Content) - Takes 8 columns (approx 2/3) */}
+            {/* Left Column (Content) */}
             <div className="lg:col-span-8">
                 
                 {blog.imageUrl && (
-                <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-15 ">
+                <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-12 ">
                     <Image 
                         src={blog.imageUrl} 
                         alt={blog.headline} 
@@ -112,26 +135,28 @@ export default async function BlogPostPage({ params }: Props) {
                 </div>
                 )}
 
+                {/* Editorial Typography for Content */}
                 <div 
-                    className="prose prose-blue dark:prose-invert max-w-none 
-                                prose-headings:font-bold prose-h1:text-gray-900 
-                                prose-a:no-underline hover:prose-a:underline
+                    className="prose prose-lg max-w-none 
+                                prose-headings:text-primary prose-headings:tracking-tighter prose-headings:font-bold
+                                prose-p:text-primary/80 prose-p:leading-relaxed
+                                prose-strong:text-primary
                                 prose-img:rounded-xl" 
                     dangerouslySetInnerHTML={{ __html: blog.content }} 
                 />
 
-                <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
-                    <Link href="/blog" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary transition-colors">
-                        <ChevronLeft className="w-4 h-4 mr-1"/> Back to all posts
+                <div className="mt-24 pt-8 border-t border-black/5">
+                    <Link href="/blog" className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-primary hover:text-accent transition-colors">
+                        <ChevronLeft className="w-4 h-4 mr-2"/> Back to Journal
                     </Link>
                 </div>
             </div>
 
-            {/* Right Column (Sidebar) - Takes 4 columns (approx 1/3) */}
-            <div className="lg:col-span-4 space-y-8">
-                {/* ✅ Use the imported component */}
-                <BlogSidebar currentBlogId={blog.id} />
-            </div>
+            {/* Right Column (Sidebar) */}
+            <aside className="lg:col-span-4">
+                {/* ✅ Passing the fetched data to prevent the .map() undefined error */}
+                <BlogSidebar categories={categories} latestPosts={latestPosts} />
+            </aside>
 
         </div>
       </div>

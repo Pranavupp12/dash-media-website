@@ -17,7 +17,7 @@ export function TeamSkills() {
         {/* ✅ FIX: Removed flexbox classes for a natural paragraph flow */}
         <div className="text-2xl lg:text-5xl font-regular text-center text-primary leading-relaxed mx-auto p-5 md:p-0">
           <VerticalCutReveal splitBy="words" staggerDuration={0.05}>
-            Our flexible team
+            We offer
           </VerticalCutReveal>
 
           {/* Inline Team Images */}
@@ -29,13 +29,13 @@ export function TeamSkills() {
                 alt={`Team member ${index + 1}`}
                 width={50}
                 height={50}
-                className="w-12 h-12 md:w-12 md:h-12 rounded-full object-cover border-4 border-background"
+                className="w-12 h-12 md:w-12 md:h-12 rounded-full object-cover"
               />
             ))}
           </div>
 
           <VerticalCutReveal splitBy="words" staggerDuration={0.05} staggerFrom="last">
-            has a wide range of skills, which lets us look at projects from a complete point of view that combines creativity 🎨 and usefulness ✨.
+            exceptional digital marketing solutions to our clients, upholding their requests and satisfaction as the utmost priority while delivering excellent analytical results. 
           </VerticalCutReveal>
         </div>
       </div>

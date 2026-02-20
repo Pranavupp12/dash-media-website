@@ -1,11 +1,7 @@
 'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card"; // 👈 Import the Card component
-import Link from "next/link";
 import CountUp from "react-countup";
 import { Zap, Rocket, BarChart2 } from "lucide-react";
-import { PhoneCall } from "lucide-react";
 
 // Data for the main stats at the top
 const mainStats = [
@@ -42,16 +38,16 @@ export function Stats() {
           {/* Left Column: Text & CTA */}
           <div className="flex flex-col gap-6 items-center text-center lg:items-start lg:text-left">
             <h2 className="text-2xl md:text-3xl pl-0 sm:pl-3 font-regular font-heading text-primary tracking-tight">
-              Bring in <span
+              Be there for your <span
                 className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
                 style={{ backgroundSize: "300% 100%" }}
               >
-                targeted visitors
-              </span> <br /> and <span
+                targeted audience.
+              </span> <br />with clear <span
                 className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
                 style={{ backgroundSize: "300% 100%" }}
               >
-                increase sales.
+                strategies and creativity.
               </span>
             </h2>
           </div>

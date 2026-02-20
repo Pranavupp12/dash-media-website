@@ -1,19 +1,17 @@
 import { AboutIntro } from "@/components/aboutsections/AboutIntro";
 import { FoundersSection } from "@/components/aboutsections/FoundersSection";
-import { AboutClientLogos } from "@/components/aboutsections/AboutClientLogos";
 import { AboutCompany } from "@/components/aboutsections/AboutCompany";
-//import { Faq } from "@/components/aboutsections/Faq";
-
+import { MarqueeSeparator } from "@/components/ui/marquee-separator";
 
 
 export default function AboutUsPage() {
   return (
     <>
       <AboutCompany/>
-      <AboutClientLogos/>
+      <MarqueeSeparator />
       <AboutIntro />
+      <MarqueeSeparator />
       <FoundersSection/>
-      {/*<Faq/>*/}
     </>
   );
 }

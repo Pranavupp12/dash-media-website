@@ -1,136 +1,215 @@
 'use client';
 
+import Link from "next/link";
+import Image from "next/image";
+import { useRef } from "react";
 import {
-  ServiceCarousel,
-  type Service,
-} from "@/components/ui/animated-service-card";
-import {
-  AreaChart,
-  LayoutTemplate,
-  PenSquare,
-  Users, // Changed from Megaphone for better distinction
-  Briefcase,
-  Mail,
-  Video,
-  Megaphone,
-  Smartphone,
-  Search,
+  ArrowLeft,
+  ArrowRight,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-// ✅ 1. Data updated to include all 10 services with hrefs
-const servicesData: Service[] = [
+// ... (Keep your servicesData array exactly as it is) ... 
+const servicesData = [
   {
-    number: "01",
     title: "SEO Services",
     description: "Expert strategies to boost your visibility and drive organic traffic.",
-    icon: AreaChart,
-    gradient: " bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50",
+    imageSrc: "/images/services/seo.png",
     href: "/services/seo",
+    gradient: "bg-gradient-to-br from-accent/70 to-accent/40",
+    accent: "text-blue-700"
   },
   {
-    number: "02",
     title: "Web Design",
     description: "Creative, responsive websites that captivate and convert your audience.",
-    icon: LayoutTemplate,
-    gradient: " bg-gradient-to-r from-cyan-100 to-cyan-200 dark:from-cyan-900/50 dark:to-cyan-800/50",
+    imageSrc: "/images/services/web-dev.png",
     href: "/services/web-design",
+    gradient: "bg-gradient-to-br from-primary/80 to-primary/40",
+    accent: "text-cyan-700"
   },
   {
-    number: "03",
     title: "Content Marketing",
-    description: "Engaging content that tells your brand’s story and builds authority.",
-    icon: PenSquare,
-    gradient: " bg-gradient-to-r from-teal-100 to-teal-200 dark:from-teal-900/50 dark:to-teal-800/50",
+    description: "Engaging content that tells your brands story and builds authority.",
+    imageSrc: "/images/services/content-marketing.png",
     href: "/services/content-marketing",
+    gradient: "bg-gradient-to-br from-teal-50 to-teal-100",
+    accent: "text-teal-700"
   },
   {
-    number: "04",
     title: "Social Media",
     description: "Building and engaging your community across all social platforms.",
-    icon: Users, // Using a more specific icon
-    gradient: " bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-indigo-900/50 dark:to-indigo-800/50",
+    imageSrc: "/images/services/social-media.png",
     href: "/services/social-media",
+    gradient: "bg-gradient-to-br from-indigo-50 to-indigo-100",
+    accent: "text-indigo-700"
   },
   {
-    number: "05",
     title: "Pay Per Click (PPC)",
     description: "Targeted ad campaigns that deliver measurable ROI and instant traffic.",
-    icon: Briefcase,
-    gradient: " bg-gradient-to-r from-purple-100 to-purple-200 dark:from-purple-900/50 dark:to-purple-800/50",
+    imageSrc: "/images/services/ppc.png",
     href: "/services/ppc",
+    gradient: "bg-gradient-to-br from-purple-50 to-purple-100",
+    accent: "text-purple-700"
   },
   {
-    number: "06",
     title: "Email Marketing",
     description: "Nurture leads and retain customers with effective email strategies.",
-    icon: Mail,
-    gradient: " bg-gradient-to-r from-pink-100 to-pink-200 dark:from-pink-900/50 dark:to-pink-800/50",
+    imageSrc: "/images/services/email-marketing.png",
     href: "/services/email-marketing",
+    gradient: "bg-gradient-to-br from-pink-50 to-pink-100",
+    accent: "text-pink-700"
   },
   {
-    number: "07",
     title: "Video Marketing",
     description: "Compelling video content that captures attention.",
-    icon: Video,
-    gradient: " bg-gradient-to-r from-red-100 to-red-200 dark:from-red-900/50 dark:to-red-800/50",
+    imageSrc: "/images/services/video-marketing.png",
     href: "/services/video-marketing",
+    gradient: "bg-gradient-to-br from-red-50 to-red-100",
+    accent: "text-red-700"
   },
   {
-    number: "08",
     title: "Native Advertising",
     description: "Ads that blend seamlessly with platform content.",
-    icon: Megaphone,
-    gradient: " bg-gradient-to-r from-orange-100 to-orange-200 dark:from-orange-900/50 dark:to-orange-800/50",
+    imageSrc: "/images/services/native-marketing.png",
     href: "/services/native-advertising",
+    gradient: "bg-gradient-to-br from-orange-50 to-orange-100",
+    accent: "text-orange-700"
   },
   {
-    number: "09",
     title: "App Development",
-    description: "Custom mobile apps for iOS and Android.",
-    icon: Smartphone,
-    gradient: " bg-gradient-to-r from-amber-100 to-amber-200 dark:from-amber-900/50 dark:to-amber-800/50",
-    href: "/services/app-development",
+    description: "Custom mobile apps for iOS and Android.Custom mobile apps for iOS .",
+    imageSrc: "/images/services/app-dev.png",
+    href: "/services/app-dev",
+    gradient: "bg-gradient-to-br from-amber-50 to-amber-100",
+    accent: "text-amber-700"
   },
   {
-    number: "10",
-    title: "Search Engine Marketing (SEM)",
+    title: "SEM (Search Marketing)",
     description: "Drive targeted traffic with paid search campaigns.",
-    icon: Search,
-    gradient: " bg-gradient-to-r from-yellow-100 to-yellow-200 dark:from-yellow-900/50 dark:to-yellow-800/50",
+    imageSrc: "/images/services/sem.png",
     href: "/services/sem",
+    gradient: "bg-gradient-to-br from-yellow-50 to-yellow-100",
+    accent: "text-yellow-700"
   },
 ];
 
-
 export function ServicesSection() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.firstChild instanceof HTMLElement
+        ? scrollContainerRef.current.firstChild.clientWidth + 24
+        : 350;
+
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
-    <section className="py-20 sm:py-24 bg-gray-50">
-      <div className="mx-auto">
-        <div className="relative z-10 mx-auto max-w-3xl space-y-3 text-center mb-3 md:mb-10">
-          <h2 className="text-balance text-4xl font-regular font-heading text-primary lg:text-6xl">
-            The Foundation For {""}
-            <br className="lg:hidden"/>
-            Your{" "}
-            <span
-              className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
-              style={{ backgroundSize: "300% 100%" }}
-            >
-              Digital Growth
-            </span>
-          </h2>
-          <p className="text-md sm:text-lg mt-6 text-muted-foreground leading-relaxed p-5 md:p-0">
-            Dash Media is more than just an agency. We support an entire ecosystem of tools and platforms to help your business innovate and succeed.
-          </p>
+    <section className="py-20 bg-blue-50 overflow-hidden">
+      <div className="container mx-auto px-5 sm:px-10">
+
+        {/* --- Header Section (Unchanged) --- */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="max-w-3xl space-y-3">
+            <h2 className="text-4xl font-regular font-heading text-primary lg:text-5xl leading-tight">
+              Boost Your Brand with Our{" "}
+              <span
+                className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
+                style={{ backgroundSize: "300% 100%" }}
+              >
+                Expertise
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+              From concept to conversion, we provide the comprehensive tools you need to grow.
+            </p>
+          </div>
+
+          <div className="hidden md:flex gap-3">
+            <Button onClick={() => scroll('left')} variant="outline" size="icon" className="rounded-full h-12 w-12 border-none bg-transparent hover:bg-primary hover:text-white shadow-none">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <Button onClick={() => scroll('right')} variant="outline" size="icon" className="rounded-full h-12 w-12 border-none bg-transparent hover:bg-primary hover:text-white shadow-none">
+              <ArrowRight className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
 
-        <ServiceCarousel services={servicesData} />
+        {/* --- Carousel Container --- */}
+        <div className="relative">
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 scrollbar-hide pr-10 md:pr-20"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {servicesData.map((service, index) => {
+              return (
+                <Link
+                  key={index}
+                  href={service.href}
+                  className="
+                        group relative flex-shrink-0 snap-start
+                        w-[80vw] sm:w-[320px] lg:w-[360px]
+                        flex flex-col h-full
+                        bg-primary
+                        overflow-hidden rounded-xl
+                        border border-gray-100
+                        shadow-sm hover:shadow-xl
+                        transition-all duration-300
+                        hover:-translate-y-1
+                      "
+                >
+                  {/* --- Image Section --- */}
+                  <div className="relative h-56 w-full overflow-hidden">
+                    <Image
+                      src={service.imageSrc}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                    />
+                    {/* Removed the black gradient overlay div completely */}
+                  </div>
+
+                  {/* --- Content Section --- */}
+                  <div className="flex flex-col flex-grow p-6">
+                    <h3 className="text-xl font-bold text-white mb-3 ">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-white/80 text-sm leading-relaxed mb-6 line-clamp-3">
+                      {service.description}
+                    </p>
+
+                    {/* --- Footer / CTA --- */}
+                    <div className="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
+                      {/* Changed from {service.accent} to text-primary */}
+                      <span className="text-sm font-bold text-white uppercase tracking-wider">
+                        View Details
+                      </span>
+
+                      <div className={`
+                                  w-10 h-10 rounded-full 
+                                  flex items-center justify-center 
+                                  bg-gray-100 text-primary
+                                  group-hover:bg-gray-100 group-hover:text-primary
+                                  transition-all duration-300
+                              `}>
+                        <ArrowRight className="w-5 h-5 transition-transform group-hover:-rotate-45" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </section>
   );
 }
-
-
-
-
-
-
