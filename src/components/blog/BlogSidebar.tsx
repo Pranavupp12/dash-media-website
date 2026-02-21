@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export function BlogSidebar({ categories, latestPosts,currentCategory }: { categories: string[], latestPosts: any[], currentCategory?: string }) {
   return (
-    <div className="space-y-16 sticky top-32">
+    <div className="space-y-16 sticky top-5">
       {/* Categories Section */}
      <div>
     <div className="flex items-center justify-between mb-8 border-b border-black/5 pb-3">

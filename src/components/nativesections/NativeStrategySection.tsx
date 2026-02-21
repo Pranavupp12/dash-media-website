@@ -1,198 +1,114 @@
 'use client';
 
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { MarqueeSeparator } from "../ui/marquee-separator";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
-
-// Avoid SSR hydration issues by loading react-countup on the client.
-const CountUp = dynamic(() => import("react-countup"), { ssr: false });
-
-// Helper hook and functions (can be moved to a utils file if used elsewhere)
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined" || !("matchMedia" in window)) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
-    setReduced(mq.matches);
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-  return reduced;
-}
-
-function parseMetricValue(raw: string) {
-  const value = (raw ?? "").toString().trim();
-  const m = value.match( /^([^\d\-+]*?)\s*([\-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*([^\d\s]*)$/ );
-  if (!m) return { prefix: "", end: 0, suffix: value, decimals: 0 };
-  const [, prefix, num, suffix] = m;
-  const normalized = num.replace(/,/g, "");
-  const end = parseFloat(normalized);
-  const decimals = (normalized.split(".")[1]?.length ?? 0);
-  return { prefix, end, suffix, decimals };
-}
-
-function MetricStat({
-  value,
-  label,
-  sub,
-  duration = 2,
-}: {
-  value: string;
-  label: string;
-  sub?: string;
-  duration?: number;
-}) {
-  const reduceMotion = usePrefersReducedMotion();
-  const { prefix, end, suffix, decimals } = parseMetricValue(value);
-
-  return (
-    <div className="flex flex-col gap-2 text-left">
-      <p className="text-xl font-semibold text-primary sm:text-4xl">
-        {prefix}
-        {reduceMotion ? (
-          <span>{end.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}</span>
-        ) : (
-          <CountUp end={end} decimals={decimals} duration={duration} separator="," enableScrollSpy scrollSpyOnce />
-        )}
-        {suffix}
-      </p>
-      <p className="font-medium text-primary text-left">{label}</p>
-      {sub ? <p className="text-sm text-muted-foreground text-left">{sub}</p> : null}
-    </div>
-  );
-}
-
-// 1. Your Web developments Study data
+ 
 const strategyData = [
   {
-    id: 1,
-    title: "1. Audience & Platform Alignment",
-    description: "We identify the publications and platforms your target audience trusts and consumes. This ensures your content appears in a contextually relevant and non-disruptive way.",
-    image: "/images/stats.png",
-    metrics: [
-      { value: "Top 20", label: "Publisher Sites Identified", sub: "Matching your audience profile" },
-      { value: "5x", label: "Higher Engagement Potential", sub: "Compared to traditional display ads" },
-    ],
+    id: "01",
+    title: "Storytelling & Authority",
+    description: "Our expertly made sponsored content seamlessly integrates with the surrounding platform, appearing less disruptive and more like true recommendations.",
+    image: "/images/strategy/discovery.png", 
+    imageBg: "bg-blue-50/50",
+    bgColor: "bg-white",
   },
   {
-    id: 2,
-    title: "2. Value-Driven Content Creation",
-    description: "Our team creates high-quality articles, videos, or infographics that match the publisher's editorial style, providing genuine value to the reader instead of a hard sell.",
-    image: "/images/stats.png",
-    metrics: [
-      { value: "100%", label: "Editorial Guideline Match", sub: "Ensuring seamless integration" },
-      { value: "3 min+", label: "Average Time on Content", sub: "Projected user engagement" },
-    ],
+    id: "02",
+    title: "Engagement & UX",
+    description: "Our highly effective ad type is designed to attract users without feeling out of place from the rest of the web or platform content and functions.",
+    image: "/images/strategy/planning.png", 
+    imageBg: "bg-purple-50/30",
+    bgColor: "bg-white",
   },
   {
-    id: 3,
-    title: "3. Campaign Launch & A/B Testing",
-    description: "We launch the native advertising campaign and continuously A/B test headlines, images, and calls-to-action to optimize for the highest click-through and conversion rates.",
-    image: "/images/stats.png",
-    metrics: [
-      { value: "35%", label: "Improved Click-Through Rate", sub: "Through iterative A/B testing" },
-      { value: "20%", label: "Lower Cost-Per-Acquisition", sub: "Vs. standard social ads" },
-    ],
+    id: "03",
+    title: "Effortless Listing & Promotion",
+    description: "Ideal for e-commerce sites and search engines, it boosts product visibility by imitating organic listings to attract high-intent users.",
+    image: "/images/strategy/launch.png", 
+    imageBg: "bg-emerald-50/30",
+    bgColor: "bg-white",
   },
   {
-    id: 4,
-    title: "4. Performance Tracking & Reporting",
-    description: "We track key metrics like brand lift, engagement, and final conversions, providing you with transparent reports that clearly demonstrate the campaign's ROI.",
-    image: "/images/stats.png",
-    metrics: [
-      { value: "25%", label: "Increase in Brand Lift", sub: "Measured via post-campaign surveys" },
-      { value: "100%", label: "Reporting Transparency", sub: "With a custom performance dashboard" },
-    ],
-  },
+    id: "04",
+    title: "Native Video Ads",
+    description: "We produce native content with high visibility that reaches the right audience and gives businesses a competitive edge.",
+    image: "/images/strategy/analysis.png", 
+    imageBg: "bg-rose-50/50",
+    bgColor: "bg-white",
+  }
 ];
 
 export function NativeStrategySection() {
   return (
-    <section className="pt-30 sm:pt-35 lg:pb-5 bg-gradient-to-b from-blue-50 to-gray-50 " aria-labelledby="strategy-heading">
-      <div className="container mx-auto">
-       {/* Header */}
-        <div className="flex flex-col items-center justify-center gap-4 md:gap-6 mb-10 lg:mb-20 text-center">
-          <h2 className="text-4xl lg:text-6xl font-regular font-heading text-primary px-2 sm:px-0">
-            Our Proven Strategy For {" "}
-            <br className="hidden lg:block" /> 
-            <span
-              className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
-              style={{ backgroundSize: "300% 100%" }}
-            >
-              Native Advertising
+    <main className="min-h-screen bg-white">
+      {/* --- Editorial Header Section --- */}
+      <section className="bg-blue-50 pt-32 pb-17 md:pt-40 md:pb-25 border-b border-black/5">
+        <div className="container mx-auto px-5 sm:px-20">
+          <header className="text-center">
+            <span className="text-md font-bold tracking-[0.4em] uppercase text-muted-foreground mb-4 block">
+              Our Services
             </span>
-          </h2>
-
-          <p className="text-muted-foreground px-5 sm:px-0 max-w-3xl text-md sm:text-lg leading-relaxed">
-            A 4-step process designed to deliver tangible results and sustainable growth.
-          </p>
-        </div>
-
-        {/* Strategy Steps */} 
-        <div className="mt-10 md:mt-20 flex flex-col gap-10 md:gap-20">
-          {strategyData.map((step, idx) => {
-            const reversed = idx % 2 === 1;
-            return (
-              <div
-                key={step.id}
-                className="grid gap-10 lg:grid-cols-3 xl:gap-24 items-center "
+            <h2 className="text-5xl md:text-6xl lg:text-[75px] font-semibold tracking-tighter text-primary uppercase leading-none">
+              Strategy built for <br />
+              <span
+                className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
+                style={{ backgroundSize: "300% 100%" }}
               >
-                {/* Text and Image */}
-                <div
-                  className={cn(
-                    "flex flex-col sm:flex-row gap-10 lg:col-span-2 text-left items-center p-5 lg:p-3",
-                    reversed 
-                      ? "lg:order-last lg:border-l lg:pl-10 border-black/10" 
-                      : "lg:border-r border-black/10 lg:pr-10"
-                  )}
-                >
-                  <Image
-                    src={step.image}
-                    alt={step.title}
-                    width={500}
-                    height={760}
-                    priority
-                    className=" rounded-2xl object-cover ring-1 ring-border hover:scale-105 transition-all duration-300"
-                  />
-                  {/* ✅ 2. Replaced the quote/figcaption with strategy details */}
-                  <div className="flex flex-col justify-between gap-6 text-left">
-                      <h3 className="text-xl sm:text-2xl font-semibold text-primary">
-                        {step.title}
-                      </h3>
-                      <p className=" text-md lg:text-lg text-muted-foreground leading-relaxed">
-                        {step.description}
-                      </p>
+                Native Advertising
+              </span>
+            </h2>
+          </header>
+        </div>
+      </section>
+
+      <MarqueeSeparator/>
+
+      {/* --- Refined Abstract Grid --- */}
+      <section className="py-10 relative z-10">
+        <div className="container mx-auto px-5 sm:px-10">
+          {/* Changed to a balanced 2-column grid on desktop */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {strategyData.map((step) => (
+              <div 
+                key={step.id} 
+                className={`group relative rounded-xl border-none p-8 md:p-10 overflow-hidden flex flex-row items-center transition-all duration-700 min-h-[320px] ${step.bgColor}`}
+              >
+                {/* 1. LEFT SIDE: CONTENT */}
+                <div className="relative z-10 flex flex-col w-3/5 pr-4">
+                  <span className="text-[10px] font-black text-primary/30 tracking-widest mb-4 block uppercase">
+                    PHASE {step.id}
+                  </span>
+                  <h4 className="text-2xl md:text-3xl font-semibold text-primary mb-3 tracking-tighter leading-tight">
+                    {step.title}
+                  </h4>
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium opacity-80 max-w-[280px]">
+                    {step.description}
+                  </p>
+                </div>
+
+                {/* 2. RIGHT SIDE: IMAGE */}
+                <div className="relative w-2/5 h-full min-h-[220px] transition-all duration-1000 group-hover:scale-110 pointer-events-none">
+                  {/* Soft Color Glow */}
+                  <div className={`w-full h-full rounded-full blur-[80px] absolute opacity-60 ${step.imageBg}`} />
+                  
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={step.image}
+                      alt={step.title}
+                      fill
+                      className="object-contain object-right"
+                      priority={step.id === "01"}
+                    />
                   </div>
                 </div>
 
-                {/* Metrics */}
-                  <div
-                  className={cn(
-                    "grid grid-cols-1 gap-6 self-center text-left p-8 lg:p-5 " ,
-                    reversed && "lg:order-first"
-                  )}
-                >
-                  {step.metrics.map((metric, i) => (
-                    // ✅ FIX: Wrapped each MetricStat in a Card
-                    <Card key={`${step.id}-${i}`} variant="neubrutalism" className="bg-white">
-                        <CardContent className="p-0">
-                            <MetricStat
-                                value={metric.value}
-                                label={metric.label}
-                                sub={metric.sub}
-                            />
-                        </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                {/* Glass Highlight Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }

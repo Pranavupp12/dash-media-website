@@ -12,27 +12,35 @@ import {
 
 const faqs = [
   {
-    question: "What kind of results can I expect?",
-    answer: "We focus on measurable KPIs such as increased organic traffic, higher search engine rankings, improved conversion rates, and greater brand engagement. We provide transparent reports to track our progress.",
+    question: "Why is SEO important for businesses?",
+    answer: "SEO optimizes the website's meta components and eliminates other technical problems. Working with a professional SEO firm helps a brand optimize these ranking components, which becomes essential to improve the navigation and visibility of the website.",
   },
   {
-    question: "How long does it take to see SEO results?",
-    answer: "SEO is a long-term strategy. While some improvements can be seen in as little as a few weeks, significant results typically take 3-6 months to materialize.",
+    question: "How long does it take to see results from SEO efforts?",
+    answer: "Usually, this mostly depends on the websites and niche, but some experts believe websites start delivering results in 3-6 months. However, with exceptional cases, such as using paid ads and marketing, this duration can be influenced to a great extent.",
   },
   {
-    question: "Do you work with businesses of all sizes?",
-    answer: "Yes, we partner with a wide range of businesses, from startups and small local companies to established enterprises.",
+    question: "What makes Dash Media Solutions unique as an SEO firm?",
+    answer: "With years of experience in social media and digital marketing, we have gained unparalleled knowledge and methods that we leverage to improve the website ranking and visibility.",
   },
   {
-    question: "How do you measure the success of a campaign?",
-    answer: "Success is measured against established KPIs, including website traffic, lead generation, conversion rates, and return on investment (ROI).",
+    question: "Do you offer a customizable SEO package?",
+    answer: "Yes, we offer a customizable SEO package to satisfy each client's business requirements—size, industry, and target audience—for maximizing ROI.",
+  },
+  {
+    question: "How to effectively measure the success of SEO campaigns?",
+    answer: "At Dash Media, we keep a record of real-time ranking, traffic growth, and conversion rate through the SEO report to ensure transparent performance and insights.",
+  },
+  {
+    question: "Do your SEO services work across multiple niche websites?",
+    answer: "Absolutely, we analyze each client’s business model carefully, assisting both startups and professional businesses to deliver growth patterns with visibility and conversion. Whatever the industry you are into—e-commerce, fintech, or any particular service-based industry—we deliver exceptional support.",
   },
 ];
 
 export function Faq() {
   return (
     <section className="py-20 bg-white">
-      <div className="container mx-auto px-5 md:px-10">
+      <div className="container mx-auto px-5 md:px-20">
         
         {/* --- Main 2-Column Grid --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -54,7 +62,7 @@ export function Faq() {
                 </span>
               </h2>
               <p className="text-md sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                Can&apos;t find the answer you&apos;re looking for? Reach out to our team for more information.
+                Can&apos;t find the answer you're looking for? Feel free to reach out to our team for more information.
               </p>
             </div>
 
@@ -92,9 +100,9 @@ export function Faq() {
                     <MessagesSquare className="w-10 h-10 text-primary " />
                   </div>
                   
-                  <h3 className="text-xl font-bold mb-3 leading-tight">You have different questions?</h3>
+                  <h3 className="text-xl font-bold mb-3 leading-tight">Have Any Questions?</h3>
                   <p className="text-white/60 mb-6 text-sm leading-relaxed">
-                    Our team will answer all your questions quickly.
+                    Connect with our team to find the answers to all of your questions.
                   </p>
                   
                   <Button className="bg-gray-50 hover:bg-gray-100 text-primary font-bold rounded-full w-fit h-12 shadow-lg transition-transform hover:scale-105">
@@ -111,7 +119,7 @@ export function Faq() {
                <div>
                   <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">Your Growth, Our Mission</p>
                   <h4 className="text-lg font-bold text-primary">24/7 Service</h4>
-                  <p className="text-xs font-medium text-muted-foreground">1(000) 000-0000</p>
+                  <p className="text-xs font-medium text-muted-foreground">+91 99110 60907</p>
                </div>
             </div>
 

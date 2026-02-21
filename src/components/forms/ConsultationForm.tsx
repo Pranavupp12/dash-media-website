@@ -23,10 +23,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { Mail, MapPin, Phone } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Mail, MapPin, Phone, ArrowRight, ShieldCheck } from "lucide-react";
 
-
+// Updated Domain in Email/Content
 const services = [
     'SEO Services', 'Web Design', 'Content Marketing', 'Social Media Marketing',
     'Video Marketing', 'Native Advertising', 'App Development', 'Email Marketing',
@@ -44,33 +43,11 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-interface ConsultationFormProps {
-  onSuccess: () => void;
-}
-
-export function ConsultationForm({ onSuccess }: ConsultationFormProps) {
+export function ConsultationForm({ onSuccess }: { onSuccess: () => void }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      mobileNumber: "",
-      requirements: "",
-      websiteUrl: "",
-      service: "",
-    },
+    defaultValues: { name: "", email: "", mobileNumber: "", requirements: "", websiteUrl: "", service: "" },
   });
-
-  const selectedService = form.watch("service");
-  const [showOtherServiceInput, setShowOtherServiceInput] = useState(false);
-
-  useEffect(() => {
-    if (selectedService === "other") {
-      setShowOtherServiceInput(true);
-    } else {
-      setShowOtherServiceInput(false);
-    }
-  }, [selectedService]);
 
   async function onSubmit(values: FormValues) {
     try {
@@ -79,163 +56,141 @@ export function ConsultationForm({ onSuccess }: ConsultationFormProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
-
-      if (!response.ok) throw new Error("Failed to submit form");
-
+      if (!response.ok) throw new Error();
       toast.success("Request submitted successfully!");
-
       form.reset();
       onSuccess();
-    } catch (error) {
-      toast.error("An error occurred. Please try again.");
+    } catch {
+      toast.error("Submission failed. Please try again.");
     }
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start w-full">
+    <div className="flex flex-col lg:flex-row gap-16 items-stretch w-full">
       
-      {/* --- COLUMN 1: THE FORM --- */}
-      <div className="w-full">
-        <h2 className="text-lg md:text-2xl font-bold">Get a Free Consultation</h2>
-        {/* Reduced margin on mobile */}
-        <p className="text-xs lg:text-sm text-muted-foreground mb-3 lg:mb-6">
-          Fill out the form below and our team will get back to you shortly.
-        </p>
+      {/* --- COLUMN 1: CLEAN MODERN FORM --- */}
+      <div className="flex-1">
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold tracking-tight text-primary mb-2">Book Your Strategy Session</h2>
+          <p className="text-muted-foreground">Fill out the details below and an expert will review your project.</p>
+        </div>
         
         <Form {...form}>
-          {/* ✅ Compact Spacing: space-y-2 on mobile, space-y-5 on desktop */}
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 lg:space-y-5">
-            
-            {/* ✅ ROW 1: Name & Mobile Side-by-Side on mobile to save height */}
-            <div className="grid grid-cols-2 gap-3">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField control={form.control} name="name" render={({ field }) => (
-                <FormItem className="space-y-0.5">
-                  <FormLabel className="text-[11px] lg:text-sm font-medium">Full Name</FormLabel>
-                  {/* Compact Input: h-8 on mobile */}
-                  <FormControl><Input className="h-8 lg:h-11 text-xs lg:text-sm" placeholder="John Doe" {...field} /></FormControl>
-                  <FormMessage className="text-[10px]" />
+                <FormItem>
+                  <FormLabel className="uppercase text-[10px] font-bold tracking-widest text-muted-foreground">Full Name</FormLabel>
+                  <FormControl><Input className="bg-gray-50/50 border-none h-12 focus-visible:ring-primary/20" placeholder="John Doe" {...field} /></FormControl>
+                  <FormMessage />
                 </FormItem>
               )}/>
 
               <FormField control={form.control} name="mobileNumber" render={({ field }) => (
-                <FormItem className="space-y-0.5">
-                  <FormLabel className="text-[11px] lg:text-sm font-medium">Mobile</FormLabel>
-                  <FormControl><Input className="h-8 lg:h-11 text-xs lg:text-sm" type="tel" placeholder="+91..." {...field} /></FormControl>
-                  <FormMessage className="text-[10px]" />
+                <FormItem>
+                  <FormLabel className="uppercase text-[10px] font-bold tracking-widest text-muted-foreground">Mobile Number</FormLabel>
+                  <FormControl><Input className="bg-gray-50/50 border-none h-12" type="tel" placeholder="+91..." {...field} /></FormControl>
+                  <FormMessage />
                 </FormItem>
               )}/>
             </div>
             
-            <FormField control={form.control} name="email" render={({ field }) => (
-              <FormItem className="space-y-0.5">
-                <FormLabel className="text-[11px] lg:text-sm font-medium">Email Address</FormLabel>
-                <FormControl><Input className="h-8 lg:h-11 text-xs lg:text-sm" type="email" placeholder="john@company.com" {...field} /></FormControl>
-                <FormMessage className="text-[10px]" />
-              </FormItem>
-            )}/>
-            
-            {/* Service & Website can stay stacked or go side-by-side. Keeping stacked for clarity but compact. */}
-            <FormField
-              control={form.control}
-              name="service"
-              render={({ field }) => (
-                <FormItem className="space-y-0.5">
-                  <FormLabel className="text-[11px] lg:text-sm font-medium">Service Interest</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="h-8 lg:h-11 text-xs lg:text-sm">
-                        <SelectValue placeholder="Select a service" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {services.map(service => (
-                        <SelectItem key={service} value={service} className="text-xs lg:text-sm">{service}</SelectItem>
-                      ))}
-                      <SelectItem value="other" className="text-xs lg:text-sm">Other...</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-[10px]" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField control={form.control} name="email" render={({ field }) => (
+                <FormItem>
+                    <FormLabel className="uppercase text-[10px] font-bold tracking-widest text-muted-foreground">Work Email</FormLabel>
+                    <FormControl><Input className="bg-gray-50/50 border-none h-12" type="email" placeholder="john@company.com" {...field} /></FormControl>
+                    <FormMessage />
                 </FormItem>
-              )}
-            />
-            
-            {showOtherServiceInput && (
-              <FormField control={form.control} name="service" render={({ field }) => (
-                <FormItem className="space-y-0.5">
-                   <FormControl><Input className="h-8 lg:h-11 text-xs lg:text-sm" placeholder="Specify service..." {...field} /></FormControl>
+                )}/>
+
+                <FormField control={form.control} name="service" render={({ field }) => (
+                <FormItem>
+                    <FormLabel className="uppercase text-[10px] font-bold tracking-widest text-muted-foreground">Service Interest</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl><SelectTrigger className="bg-gray-50/50 border-none h-12"><SelectValue placeholder="Select one" /></SelectTrigger></FormControl>
+                        <SelectContent>{services.map(s => (<SelectItem key={s} value={s}>{s}</SelectItem>))}</SelectContent>
+                    </Select>
+                    <FormMessage />
                 </FormItem>
-              )}/>
-            )}
+                )}/>
+            </div>
 
             <FormField control={form.control} name="websiteUrl" render={({ field }) => (
-              <FormItem className="space-y-0.5">
-                <FormLabel className="text-[11px] lg:text-sm font-medium">Website (Optional)</FormLabel>
-                <FormControl><Input className="h-8 lg:h-11 text-xs lg:text-sm" placeholder="https://..." {...field} /></FormControl>
-                <FormMessage className="text-[10px]" />
+              <FormItem>
+                <FormLabel className="uppercase text-[10px] font-bold tracking-widest text-muted-foreground">Company Website (Optional)</FormLabel>
+                <FormControl><Input className="bg-gray-50/50 border-none h-12" placeholder="https://..." {...field} /></FormControl>
+                <FormMessage />
               </FormItem>
             )}/>
             
             <FormField control={form.control} name="requirements" render={({ field }) => (
-              <FormItem className="space-y-0.5">
-                <FormLabel className="text-[11px] lg:text-sm font-medium">Requirements</FormLabel>
-                <FormControl>
-                    {/* ✅ Reduced rows to 2 on mobile */}
-                    <Textarea rows={2} className="resize-none text-xs lg:text-base min-h-[50px] lg:min-h-[80px]" placeholder="Project details..." {...field} />
-                </FormControl>
-                <FormMessage className="text-[10px]" />
+              <FormItem>
+                <FormLabel className="uppercase text-[10px] font-bold tracking-widest text-muted-foreground">Project Brief</FormLabel>
+                <FormControl><Textarea rows={4} className="bg-gray-50/50 border-none resize-none" placeholder="What are your goals?" {...field} /></FormControl>
+                <FormMessage />
               </FormItem>
             )}/>
             
-            <Button type="submit" size="sm" disabled={form.formState.isSubmitting} className="w-full !mt-3 lg:!mt-6 h-9 lg:h-12 text-xs lg:text-base">
-              {form.formState.isSubmitting ? "Submitting..." : "Submit Request"}
+            <Button type="submit" className="w-full h-14 text-md font-bold rounded-xl shadow-xl shadow-primary/10 transition-transform active:scale-95">
+              {form.formState.isSubmitting ? "Processing..." : "Submit Request"} <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+
+            <p className="text-center text-[10px] text-muted-foreground flex items-center justify-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-green-500" /> Your information is stored securely and never shared.
+            </p>
           </form>
         </Form>
       </div>
 
-      {/* --- COLUMN 2: CONTACT US CARD --- */}
-      <div className="w-full hidden lg:block">
-        <Card variant="neubrutalism" className="mt-8 lg:mt-20 bg-gradient-to-t from-white to-blue-100 w-full">
-            <CardContent className="p-6 md:p-8">
-                <div className="flex justify-center mb-6">
-                    <img
-                        src="/DashMediaLogo.png"
-                        alt="Company Logo"
-                        width={140}
-                        height={100}
-                        className="object-contain"
-                    />
-                </div>
-                <h3 className="text-xl md:text-2xl font-semibold text-center">Contact Information</h3>
-                <p className="text-center text-sm text-muted-foreground mb-8">We're here to help!</p>
+      {/* --- COLUMN 2: MINIMALIST INFO SIDEBAR --- */}
+      <div className="lg:w-80 flex flex-col justify-between py-2">
+        <div className="space-y-12">
+            <div>
+                <img src="/DashMediaLogo.png" alt="DMS" width={120} height={40} className="mb-8 opacity-80" />
+                <h3 className="text-lg font-bold text-primary mb-4">Why work with us?</h3>
+                <ul className="space-y-4">
+                    <li className="flex gap-3 text-sm text-muted-foreground">
+                        <span className="text-accent font-bold">01</span> Performance-driven strategies optimized for ROI.
+                    </li>
+                    <li className="flex gap-3 text-sm text-muted-foreground">
+                        <span className="text-accent font-bold">02</span> Full-stack expertise in both tech and marketing.
+                    </li>
+                    <li className="flex gap-3 text-sm text-muted-foreground">
+                        <span className="text-accent font-bold">03</span> Dedicated account managers for every project.
+                    </li>
+                </ul>
+            </div>
 
-                <div className="space-y-6">
-                    <div className="flex items-start space-x-4">
-                        <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                        <div>
-                            <p className="font-semibold text-sm md:text-base">Our Office</p>
-                            <p className="text-muted-foreground text-sm">123 Business Rd, Suite 456<br />Delhi, 110001, India</p>
-                        </div>
+            <div className="space-y-6 pt-10 border-t border-gray-100">
+                <div className="flex items-center gap-4 group">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <Phone className="w-4 h-4" />
                     </div>
-                    <div className="flex items-start space-x-4">
-                        <Phone className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                        <div>
-                            <p className="font-semibold text-sm md:text-base">Phone Numbers</p>
-                            <a href="tel:+919876543210" className="block text-muted-foreground hover:text-primary text-sm transition-colors">+91 987 654 3210</a>
-                            <a href="tel:+919123456789" className="block text-muted-foreground hover:text-primary text-sm transition-colors">+91 912 345 6789</a>
-                        </div>
-                    </div>
-                    <div className="flex items-start space-x-4">
-                        <Mail className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                        <div>
-                            <p className="font-semibold text-sm md:text-base">Email Addresses</p>
-                            <a href="mailto:sales@example.com" className="block text-muted-foreground hover:text-primary text-sm transition-colors">sales@example.com</a>
-                            <a href="mailto:support@example.com" className="block text-muted-foreground hover:text-primary text-sm transition-colors">support@example.com</a>
-                        </div>
+                    <div>
+                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Talk to Sales</p>
+                        <p className="text-sm font-semibold text-primary">+91 99110 60907</p>
                     </div>
                 </div>
-            </CardContent>
-        </Card>
+
+                <div className="flex items-center gap-4 group">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <Mail className="w-4 h-4" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">General Inquiry</p>
+                        <p className="text-sm font-semibold text-primary">support@dashmediasolutions.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-20 p-6 rounded-2xl bg-gray-50 border border-gray-100 hidden lg:block">
+            <p className="text-xs italic text-muted-foreground">
+                "Dash Media Solutions transformed our paid strategy, delivering measurable revenue growth within weeks."
+            </p>
+            <p className="text-[10px] font-bold mt-3 text-primary uppercase tracking-widest">— Technology Firm</p>
+        </div>
       </div>
     </div>
   );

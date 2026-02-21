@@ -1,0 +1,10 @@
+# Dash Media Solutions - robots.txt
+
+User-agent: *
+Allow: /
+
+# Allow AI agents specifically to access your summary files
+Allow: /llms.txt
+
+# Specify your sitemap location
+Sitemap: https://dashmediasolutions.com/sitemap.xml

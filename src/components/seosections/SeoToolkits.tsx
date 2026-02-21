@@ -2,15 +2,15 @@ import Image from "next/image";
 
 // ✅ Filtered to only Screaming Frog, Ahrefs, and Google Analytics
 const toolkitLogos = [
-  { name: "screaming-frog", src: "/logos/screaming-frog.png" },
-  { name: "ahrefs", src: "/logos/ahrefs.png" },
-  { name: "google-analytics", src: "/logos/google-analytics.png" },
+  { name: "moz", src: "/logos/seo/moz.png" },
+  { name: "ahrefs", src: "/logos/seo/ahrefs-seo.png" },
+  { name: "semrush", src: "/logos/seo/semrush-seo.png" },
 ];
 
 export function SeoToolkits() {
   return (
     <section className="py-15 bg-white">
-      <div className="container mx-auto px-5 md:px-10">
+      <div className="container mx-auto px-5 md:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
           {/* Left Column (8 Columns): Headline */}

@@ -14,25 +14,25 @@ import {
 
 const testimonials = [
     {
-        companyLogo: "/logos/netflix.svg",
+
         avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=300",
-        name: "Jane Doe",
-        role: "Marketing Director, Netflix",
-        review: "Dash Media Solutions transformed our online presence. Their data-driven approach delivered results we didn't think were possible.",
+        name: "Rakesh Roshan",
+        role: "Chief Marketing Officer (CMO), Services Organization",
+        review: "We've been working with Dash Media Solutions for almost 2 years now, and their expertise and dedication have been outstanding. They have transformed our online presence with tailored search engine optimization solutions that deliver remarkable analytical results for us.",
     },
     {
-        companyLogo: "/logos/google.svg",
+       
         avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=300",
-        name: "John Smith",
-        role: "CEO, Google Inc.",
-        review: "From data chaos to clarity – Dash Media delivers powerful insights that turn complex data into actionable decisions.",
+        name: "Aditya Singh",
+        role: "Managing Director, Service-Based Business",
+        review: " would definitely recommend working with Dash Media Solutions. They delivered us great support for the SEO part, which produces proven results in record time. With their help, we managed to capture our target audience without losing the ROI measure.",
     },
     {
-        companyLogo: "/logos/paypal.svg",
+       
         avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=300",
-        name: "Emily White",
-        role: "Founder, PayPal",
-        review: "The team's expertise in SEO and content strategy is unmatched. We've saved countless hours and seen incredible growth.",
+        name: "Priya Kapoor",
+        role: "Founder, Direct-to-Consumer Brand",
+        review: "Excellent work done by Dash Media Solutions for our business website. Their SEO services helped us attract clients at the start of our new business. I highly recommend them if you want to improve your SEO ranking and draw newer clients.",
     },
 ];
 
@@ -58,22 +58,23 @@ export function Testimonials() {
 
     return (
         <section className="py-20 bg-blue-50">
-            <div className="container mx-auto px-5 sm:px-10">
+            <div className="container mx-auto px-5 sm:px-20">
                 
                 {/* --- Header Row --- */}
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div className="max-w-3xl text-left">
                         <h2 className=" text-2xl sm:text-3xl md:text-5xl font-regular font-heading text-primary tracking-tight leading-tight">
-                            Trusted by Our{" "}
+                            What Our {" "}
                             <span
                                 className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
                                 style={{ backgroundSize: "300% 100%" }}
                             >
                                 Clients
-                            </span>
+                            </span>{" "}
+                            Are Saying
                         </h2>
                         <p className="text-md sm:text-lg text-muted-foreground mt-6 leading-relaxed">
-                            Just don't take our word for it hear what our satisfied clients have to say about their experience partnering with us.
+                            Explore what our clients have to say about our Search Engine Optimization (SEO) services and how they improve their online presence. 
                         </p>
                     </div>
                 </div>
@@ -87,7 +88,7 @@ export function Testimonials() {
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
                         
                         <div className="relative z-10 flex flex-col items-center w-full mb-5">
-                            <div className="text-7xl font-bold tracking-tighter mb-2">4.9</div>
+                            <div className="text-7xl font-bold tracking-tighter mb-2">4.7</div>
                             
                             {/* ✅ FIX 1: Added 'justify-center' to stars */}
                             <div className="flex gap-1 mb-4 text-yellow-400 justify-center">
@@ -96,10 +97,10 @@ export function Testimonials() {
                                 ))}
                             </div>
                             <p className="text-white/80 font-medium text-lg mb-4">
-                                (40+ Reviews)
+                                (1500+ Reviews)
                             </p>
-                            <p className="text-lg md:text-xl font-semibold leading-relaxed text-white">
-                                Customer experiences that speak for themselves.
+                            <p className="text-md font-semibold leading-relaxed text-white mb-4">
+                                Discover Clients&apos; Experiences <br />That Define Our Partnerships.
                             </p>
                         </div>
 

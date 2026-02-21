@@ -34,8 +34,8 @@ const foundersData = [
 
 export function FoundersSection() {
   return (
-    <section className="py-20 bg-white ">
-      <div className="container mx-auto px-5 md:px-10">
+    <section className="py-20 bg-blue-50 ">
+      <div className="container mx-auto px-5 md:px-20">
         <div className="flex flex-col items-center justify-center gap-6 mb-8 md:mb-10 p-5 md:p-0 text-center">
           <div>
             <h2 className="text-4xl md:text-6xl font-regular font-heading text-primary tracking-tighter">
@@ -51,7 +51,7 @@ export function FoundersSection() {
 
           <div>
             <p className="text-md sm:text-lg text-muted-foreground max-w-3xl leading-relaxed">
-              We're a diverse group of designers, engineers, and thinkers united by one mission: building technology that makes life simpler, smarter, and more human.
+              We bring together professionals from a variety of backgrounds, including content creators, designers, developers, and SEO experts, who are enthusiastic about advancing your business.
             </p>
           </div>
         </div>

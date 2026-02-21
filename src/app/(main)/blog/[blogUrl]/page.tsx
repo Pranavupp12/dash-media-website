@@ -14,6 +14,21 @@ type Props = {
   params: Promise<{ blogUrl: string }>
 }
 
+function getJsonLd(blog: any) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blog.headline,
+    "image": blog.imageUrl,
+    "datePublished": blog.createdAt.toISOString(),
+    "author": [{
+        "@type": "Person",
+        "name": blog.authorName,
+      }],
+    "description": blog.metaDescription,
+  };
+}
+
 async function getBlogByUrl(blogUrl: string) {
   const blog = await prisma.blog.findUnique({
     where: { blogUrl: blogUrl },
@@ -52,11 +67,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const blog = await getBlogByUrl(resolvedParams.blogUrl);
 
   if (!blog) return { title: "Not Found" };
+
+  const siteUrl = "https://dashmediasolutions.com";
+  const ogImage = blog.imageUrl || `${siteUrl}/default-og-image.jpg`;
   
-  return {
+ return {
     title: blog.metaTitle,
     description: blog.metaDescription,
     keywords: blog.metaKeywords.split(','),
+
+    // ✅ Open Graph (Covers Facebook, Instagram, and WhatsApp)
+    openGraph: {
+      title: blog.metaTitle,
+      description: blog.metaDescription,
+      url: `${siteUrl}/blog/${blog.blogUrl}`,
+      siteName: "Dash Media Solutions",
+      type: "article",
+      publishedTime: blog.createdAt.toISOString(),
+      authors: [blog.authorName],
+      section: blog.category,
+      
+      // WhatsApp and Facebook look best with 1200x630 images
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: blog.headline,
+        },
+      ],
+    },
+
+    // ✅ Twitter/X
+    twitter: {
+      card: "summary_large_image",
+      title: blog.metaTitle,
+      description: blog.metaDescription,
+      images: [ogImage],
+    },
   };
 }
 
@@ -83,10 +131,15 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <article className="min-h-screen bg-white pb-20">
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getJsonLd(blog)) }}
+      />
       
       {/* --- Header Section (Magazine Style) --- */}
       <div className="border-b border-black/5 bg-blue-50">
-        <div className="container mx-auto px-5 pt-32 pb-16 max-w-7xl text-center">
+        <div className="container mx-auto px-5 sm:px-20 pt-32 pb-16 max-w-7xl text-center">
           
           <div className="flex items-center justify-center gap-2 mb-6">
             <span className="text-sm font-bold uppercase tracking-[0.3em] text-accent">

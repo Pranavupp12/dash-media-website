@@ -17,7 +17,7 @@ export async function BlogSection() {
 
   return (
     <section className="py-20 bg-blue-50">
-      <div className="container mx-auto px-5 sm:px-10">
+      <div className="container mx-auto px-5 sm:px-20">
         
         {/* --- Header --- */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">

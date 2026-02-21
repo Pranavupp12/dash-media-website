@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 const servicesData = [
   {
     title: "SEO Services",
-    description: "Expert strategies to boost your visibility and drive organic traffic.",
+    description: "Improve website visibility by attracting organic visitors from search engine results.",
     imageSrc: "/images/services/seo.png",
     href: "/services/seo",
     gradient: "bg-gradient-to-br from-accent/70 to-accent/40",
@@ -21,7 +21,7 @@ const servicesData = [
   },
   {
     title: "Web Design",
-    description: "Creative, responsive websites that captivate and convert your audience.",
+    description: "Professional UI/UX & design to ensure user functionality and engagement.",
     imageSrc: "/images/services/web-dev.png",
     href: "/services/web-design",
     gradient: "bg-gradient-to-br from-primary/80 to-primary/40",
@@ -29,7 +29,7 @@ const servicesData = [
   },
   {
     title: "Content Marketing",
-    description: "Engaging content that tells your brands story and builds authority.",
+    description: "Develop a strategic approach to deliver valuable, relevant, and consistent content.",
     imageSrc: "/images/services/content-marketing.png",
     href: "/services/content-marketing",
     gradient: "bg-gradient-to-br from-teal-50 to-teal-100",
@@ -37,7 +37,7 @@ const servicesData = [
   },
   {
     title: "Social Media",
-    description: "Building and engaging your community across all social platforms.",
+    description: "Use social media to build brand awareness, drive traffic, and increase sales.",
     imageSrc: "/images/services/social-media.png",
     href: "/services/social-media",
     gradient: "bg-gradient-to-br from-indigo-50 to-indigo-100",
@@ -45,7 +45,7 @@ const servicesData = [
   },
   {
     title: "Pay Per Click (PPC)",
-    description: "Targeted ad campaigns that deliver measurable ROI and instant traffic.",
+    description: "Target your ad campaigns to receive instant traffic and improve ROI.",
     imageSrc: "/images/services/ppc.png",
     href: "/services/ppc",
     gradient: "bg-gradient-to-br from-purple-50 to-purple-100",
@@ -53,7 +53,7 @@ const servicesData = [
   },
   {
     title: "Email Marketing",
-    description: "Nurture leads and retain customers with effective email strategies.",
+    description: "Promote products or build communities with personalized, automated email marketing campaigns. ",
     imageSrc: "/images/services/email-marketing.png",
     href: "/services/email-marketing",
     gradient: "bg-gradient-to-br from-pink-50 to-pink-100",
@@ -61,7 +61,7 @@ const servicesData = [
   },
   {
     title: "Video Marketing",
-    description: "Compelling video content that captures attention.",
+    description: "Promote your content to the right audiences across popular digital channels through ads.",
     imageSrc: "/images/services/video-marketing.png",
     href: "/services/video-marketing",
     gradient: "bg-gradient-to-br from-red-50 to-red-100",
@@ -69,7 +69,7 @@ const servicesData = [
   },
   {
     title: "Native Advertising",
-    description: "Ads that blend seamlessly with platform content.",
+    description: "Tailor your paid ads for each platform where they appear. Optimal for improving user experience.",
     imageSrc: "/images/services/native-marketing.png",
     href: "/services/native-advertising",
     gradient: "bg-gradient-to-br from-orange-50 to-orange-100",
@@ -77,7 +77,7 @@ const servicesData = [
   },
   {
     title: "App Development",
-    description: "Custom mobile apps for iOS and Android.Custom mobile apps for iOS .",
+    description: "Build and deploy your desired app for mobile or browsers to engage your users and customers.",
     imageSrc: "/images/services/app-dev.png",
     href: "/services/app-dev",
     gradient: "bg-gradient-to-br from-amber-50 to-amber-100",
@@ -85,7 +85,7 @@ const servicesData = [
   },
   {
     title: "SEM (Search Marketing)",
-    description: "Drive targeted traffic with paid search campaigns.",
+    description: "Leverage strategic paid advertising to boost the website's visibility on search engines.",
     imageSrc: "/images/services/sem.png",
     href: "/services/sem",
     gradient: "bg-gradient-to-br from-yellow-50 to-yellow-100",
@@ -111,22 +111,24 @@ export function ServicesSection() {
 
   return (
     <section className="py-20 bg-blue-50 overflow-hidden">
-      <div className="container mx-auto px-5 sm:px-10">
+      <div className="container mx-auto px-5 sm:px-20">
 
         {/* --- Header Section (Unchanged) --- */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-4xl font-regular font-heading text-primary lg:text-5xl leading-tight">
-              Boost Your Brand with Our{" "}
+              Our Performance
+              Driven <br />
+              {" "}
               <span
                 className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
                 style={{ backgroundSize: "300% 100%" }}
               >
-                Expertise
+              Marketing Solutions
               </span>
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
-              From concept to conversion, we provide the comprehensive tools you need to grow.
+            <p className="text-lg text-muted-foreground leading-relaxed ">
+              Our professional digital marketing solutions are supported by an entire ecosystem of tools and platforms to help your business innovate and succeed.
             </p>
           </div>
 
@@ -181,7 +183,7 @@ export function ServicesSection() {
                       {service.title}
                     </h3>
 
-                    <p className="text-white/80 text-sm leading-relaxed mb-6 line-clamp-3">
+                    <p className="text-white/80 text-sm leading-relaxed mb-6 line-clamp-2">
                       {service.description}
                     </p>
 

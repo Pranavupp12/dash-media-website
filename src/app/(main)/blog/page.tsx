@@ -8,7 +8,36 @@ import { MarqueeSeparator } from '@/components/ui/marquee-separator';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Dash Media Solutions Insights—News, Updates & Tips",
+  description: "The Dash Media blog provides in-depth insights and industry updates on digital marketing trends, news, tips, and tricks for enhancing branding strategies.",
+  keywords: ["Dash Media Solutions Insights", "Digital Marketing News and Updates", "Marketing Tips to Increase Visibility"],
+
+  // ✅ Open Graph (For Social Sharing)
+  openGraph: {
+    title: "Dash Media Solutions Insights",
+    description: "The DMS Digital Journal & Insight Lab - News, Updates & Tips",
+    url: "https://dashmedia.solutions/blog",
+    siteName: "Dash Media Solutions",
+    type: "website",
+    images: [
+      {
+        url: "https://dashmedia.solutions/og-blog-main.jpg", // Replace with your actual image path
+        width: 1200,
+        height: 630,
+        alt: "Dash Media Solutions Blog",
+      },
+    ],
+  },
+
+  // ✅ Twitter
+  twitter: {
+    card: "summary_large_image",
+    title: "Dash Media Solutions Insights",
+    description: "Digital marketing news, tips, and industry updates.",
+    images: ["https://dashmedia.solutions/og-blog-main.jpg"],
+  },
+
+  // ✅ PRESERVED: Your No-Index Tags
   robots: {
     index: false,
     follow: false,
@@ -90,18 +119,50 @@ export default async function BlogPage({
 
   const totalPages = Math.ceil(totalBlogs / BLOGS_PER_PAGE);
 
+  // Helper to generate Blog Collection Schema
+  function getBlogCollectionJsonLd(blogs: any[]) {
+    return {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Dash Media Solutions Insights",
+      "description": "Digital marketing news and branding insights.",
+      "url": "https://dashmediasolutions/blog",
+      "blogPost": blogs.map((blog) => ({
+        "@type": "BlogPosting",
+        "headline": blog.headline,
+        "url": `https://dashmediasolutions/blog/${blog.blogUrl}`,
+        "datePublished": blog.createdAt.toISOString(),
+        "author": {
+          "@type": "Person",
+          "name": blog.authorName
+        }
+      }))
+    };
+  }
+
   return (
     <main className="min-h-screen">
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogCollectionJsonLd(blogs)) }}
+      />
+
       {/* ✅ SECTION 1: Blue Header Hero */}
-      <section className="bg-blue-50 pt-32 pb-24 md:pt-40 md:pb-32 border-b border-black/5">
-        <div className="container mx-auto px-5 sm:px-10">
+      <section className="bg-blue-50 pt-34 pb-20  border-b border-black/5">
+        <div className="container mx-auto px-5 sm:px-20">
           <header className="text-center relative">
-            <h1 className="text-5xl md:text-6xl lg:text-[110px] font-bold tracking-tighter text-primary uppercase leading-none">
-              Ideas <span className="font-light italic text-muted-foreground/30 lowercase tracking-normal">that</span> Inspire
+            <h1 className="text-5xl md:text-6xl lg:text-[90px] font-bold tracking-tighter text-primary uppercase leading-none">
+              Ideas that {" "}
+              <span
+                className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
+                style={{ backgroundSize: "300% 100%" }}
+              >
+                inspire
+              </span>
             </h1>
             {/* Optional subtitle to add editorial weight */}
-            <p className="mt-8 text-muted-foreground font-medium uppercase tracking-widest text-lg">
+            <p className="mt-5 text-muted-foreground font-medium uppercase tracking-widest text-lg">
               The DMS Digital Journal & Insight Lab
             </p>
           </header>
@@ -138,7 +199,7 @@ export default async function BlogPage({
                     {/* 1. Dedicated Search Button */}
                     <button
                       type="submit"
-                      className="absolute right-2 bg-primary text-white text-[12px] font-bold uppercase tracking-widest px-6 py-2.5 rounded-full hover:bg-accent transition-colors"
+                      className="absolute right-2 bg-primary text-white text-[12px] font-bold uppercase tracking-widest px-6 py-2.5 rounded-full hover:bg-primary/80 transition-colors"
                     >
                       Search
                     </button>
@@ -190,7 +251,7 @@ export default async function BlogPage({
 
             {/* Sidebar (Right Column) */}
             <aside className="lg:col-span-4">
-              <div className="sticky top-32">
+              <div className="sticky top-10">
                 <BlogSidebar
                   categories={categories}
                   latestPosts={latestPosts}

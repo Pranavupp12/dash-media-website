@@ -2,14 +2,14 @@ import Image from "next/image";
 
 export function AboutCompany() {
   const skills = [
-    { label: "Marketing & Business Growth", percentage: 85 },
-    { label: "Creativity & Innovation", percentage: 80 },
-    { label: "Business & Financial Management", percentage: 95 },
+    { label: "Marketing Strategy Accuracy", percentage: 85 },
+    { label: "Increased Brand Awareness", percentage: 80 },
+    { label: "Rate of Client Success", percentage: 95 },
   ];
 
   return (
-    <section className="pt-20 sm:pt-30 pb-20 bg-blue-50">
-      <div className="container mx-auto px-5 md:px-10">
+    <section className="pt-20 sm:pt-40 pb-25 bg-blue-50">
+      <div className="container mx-auto px-5 md:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* Left Column: Bento Image Grid Placeholder */}
@@ -30,13 +30,13 @@ export function AboutCompany() {
           <div className="flex flex-col gap-8 text-left order-1 lg:order-2">
             <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-regular font-heading text-primary leading-tight">
-                Empowering Your Success <br />
-                with <span className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold" style={{ backgroundSize: "300% 100%" }}>
-                  Digital Expertise
+                Leading Digital {" "}
+                <span className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold" style={{ backgroundSize: "300% 100%" }}>
+                Marketing Agency
                 </span>
               </h2>
               <p className="text-md sm:text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Dash Media Solutions was founded with a simple mission: to deliver transparent, data-driven marketing solutions that help businesses thrive in the digital age. We are passionate about crafting strategies that foster growth and build lasting partnerships.
+                We are a digital marketing agency that combines industry expertise with multiple strategies and tools to ensure the quality of our services and boost growth. Our mission is to help businesses in their online journey with our innovative approach and tailored digital marketing techniques.
               </p>
             </div>
 

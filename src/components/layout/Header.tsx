@@ -50,14 +50,14 @@ const services = [
 
 export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    
+
     // State for visual changes
     const [scrolled, setScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
 
     const { openModal } = useModal();
     const buttonRef = useRef<HTMLButtonElement>(null);
-    
+
     // Refs for scroll tracking
     const lastScrollY = useRef(0);
     const scrollTimer = useRef<NodeJS.Timeout | null>(null); // 👈 New Timer Ref
@@ -65,7 +65,7 @@ export function Header() {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            
+
             // 1. CLEAR EXISTING TIMER
             // If the user is currently scrolling, cancel the "show navbar" timer
             if (scrollTimer.current) {
@@ -83,7 +83,7 @@ export function Header() {
 
             // 3. SET BACKGROUND STYLE
             setScrolled(currentScrollY > 10);
-            
+
             // 4. SET NEW TIMER (Detect Stop)
             // If no scroll event happens for 250ms, assume they stopped and show navbar.
             scrollTimer.current = setTimeout(() => {
@@ -168,58 +168,75 @@ export function Header() {
 
                                 <PopoverPanel
                                     transition
-                                    className="absolute left-1/2 z-10 mt-0 pt-2 w-screen max-w-4xl -translate-x-1/2 transform transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[enter]:ease-out data-[leave]:duration-150 data-[leave]:ease-in"
+                                    className="absolute left-1/2 z-10 mt-0 pt-3 w-screen max-w-[950px] -translate-x-1/2 transform transition data-[closed]:translate-y-2 data-[closed]:opacity-0 data-[enter]:duration-200 data-[enter]:ease-out data-[leave]:duration-150 data-[leave]:ease-in"
                                 >
-                                    <div className="overflow-hidden rounded-3xl bg-background shadow-lg ring-1 ring-gray-900/5">
-                                        <div className="grid grid-cols-3 gap-x-6 p-4">
-                                            <div className="flex flex-col gap-y-2">
-                                                {services.slice(0, 4).map((item) => (
-                                                    <div key={item.name} className="group relative flex items-center gap-x-6 rounded-lg p-4 text-base leading-6 hover:bg-secondary">
-                                                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-secondary group-hover:bg-background">
-                                                            <item.icon aria-hidden="true" className="h-6 w-6 text-primary group-hover:text-primary" />
-                                                        </div>
-                                                        <div className="flex-auto">
-                                                            <PopoverButton as={Link} href={item.href} className="block font-semibold text-primary text-sm">
-                                                                {item.name}
-                                                                <span className="absolute inset-0" />
-                                                            </PopoverButton>
-                                                            <p className="mt-1 text-muted-foreground text-sm">{item.description}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                    <div className="overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black/5 border border-gray-100">
+                                        <div className="grid grid-cols-12">
+
+                                            {/* --- Left Sidebar: Feature/Overview --- */}
+                                            <div className="col-span-4 bg-blue-50/50 p-8 border-r border-gray-100 flex flex-col justify-between">
+                                                <div>
+                                                    <h3 className="text-xl font-bold text-primary tracking-tight">Expert Solutions</h3>
+                                                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                                                        Data-driven marketing strategies tailored to scale your business growth and digital presence.
+                                                    </p>
+                                                </div>
+
+                                                <div className="mt-10 rounded-2xl bg-none">
+                                                    <p className="text-sm font-semibold text-primary">Ready to transform your brand?</p>
+                                                    <Button
+                                                        variant="link"
+                                                        onClick={() => { close(); openModal(); }}
+                                                        className="p-0 h-auto text-accent mt-2 hover:no-underline group"
+                                                    >
+                                                        Schedule a Consultation <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
+                                                    </Button>
+                                                </div>
                                             </div>
-                                            <div className="flex flex-col gap-y-2">
-                                                {services.slice(4, 8).map((item) => (
-                                                    <div key={item.name} className="group relative flex items-center gap-x-6 rounded-lg p-4 text-base leading-6 hover:bg-secondary">
-                                                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-secondary group-hover:bg-background">
-                                                            <item.icon aria-hidden="true" className="h-6 w-6 text-primary group-hover:text-primary" />
+
+                                            {/* --- Right Section: Services Grid --- */}
+                                            <div className="col-span-8 p-6 bg-white">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    {services.map((item) => (
+                                                        <div key={item.name} className="group relative flex items-start gap-x-4 rounded-xl p-3 transition-all hover:bg-blue-50/50">
+                                                            <div className="flex h-10 w-10 flex-none items-center justify-center bg-none">
+                                                                <item.icon
+                                                                    aria-hidden="true"
+                                                                    className="h-5 w-5 text-primary/70 transition-colors group-hover:text-accent"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <PopoverButton
+                                                                    as={Link}
+                                                                    href={item.href}
+                                                                    className="block text-sm font-bold text-primary"
+                                                                >
+                                                                    {item.name}
+                                                                    <span className="absolute inset-0" />
+                                                                </PopoverButton>
+                                                                <p className="mt-0.5 text-[12px] leading-snug text-muted-foreground line-clamp-1">
+                                                                    {item.description}
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                        <div className="flex-auto">
-                                                            <PopoverButton as={Link} href={item.href} className="block font-semibold text-primary text-sm">
-                                                                {item.name}
-                                                                <span className="absolute inset-0" />
-                                                            </PopoverButton>
-                                                            <p className="mt-1 text-muted-foreground text-sm">{item.description}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
+
+                                                {/* --- Bottom Footer within Dropdown --- */}
+                                                <div className="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between px-2">
+                                                    <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+                                                        Performance-Driven Results
+                                                    </span>
+                                                    <Link
+                                                        href="/blog"
+                                                        className="text-xs font-bold text-primary hover:text-accent transition-colors"
+                                                        onClick={() => close()}
+                                                    >
+                                                        View Case Studies
+                                                    </Link>
+                                                </div>
                                             </div>
-                                            <div className="flex flex-col gap-y-2">
-                                                {services.slice(8).map((item) => (
-                                                    <div key={item.name} className="group relative flex items-center gap-x-6 rounded-lg p-4 text-base leading-6 hover:bg-secondary">
-                                                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-secondary group-hover:bg-background">
-                                                            <item.icon aria-hidden="true" className="h-6 w-6 text-primary group-hover:text-primary" />
-                                                        </div>
-                                                        <div className="flex-auto">
-                                                            <PopoverButton as={Link} href={item.href} className="block font-semibold text-primary text-sm">
-                                                                {item.name}
-                                                                <span className="absolute inset-0" />
-                                                            </PopoverButton>
-                                                            <p className="mt-1 text-muted-foreground text-sm">{item.description}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
+
                                         </div>
                                     </div>
                                 </PopoverPanel>
@@ -233,8 +250,8 @@ export function Header() {
                 </PopoverGroup>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Button onClick={openModal}>
-                        Get In Touch <PhoneCall className="w-4 h-4 ml-2" />
+                    <Button onClick={openModal} className='rounded-full'>
+                        Get In Touch
                     </Button>
                 </div>
             </nav>
@@ -308,8 +325,8 @@ export function Header() {
                                 </Link>
                             </div>
                             <div className="py-6">
-                                <Button onClick={openModal}>
-                                    Get In Touch <PhoneCall className="w-4 h-4 ml-2" />
+                                <Button onClick={openModal} className='rounded-full'>
+                                    Get In Touch
                                 </Button>
                             </div>
                         </div>

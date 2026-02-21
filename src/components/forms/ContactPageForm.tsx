@@ -23,7 +23,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
 
 const services = [
     'SEO Services', 'Web Design', 'Content Marketing', 'Social Media Marketing',
@@ -164,9 +163,9 @@ export function ContactPageForm({ onSuccess }: ContactPageFormProps) {
         )}/>
         
         <div className="pt-2">
-            <Button type="submit" size="sm" disabled={form.formState.isSubmitting} className="h-10 px-8 text-sm sm:text-md font-regular w-[60%] md:w-auto">
+            <Button type="submit" size="sm" disabled={form.formState.isSubmitting} className="h-10 px-8 rounded-full text-sm sm:text-md font-regular w-fit">
                 {form.formState.isSubmitting ? "Sending..." : "Send Message"}
-                {!form.formState.isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
+               
             </Button>
         </div>
 

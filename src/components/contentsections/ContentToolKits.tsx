@@ -1,49 +1,47 @@
 import Image from "next/image";
 
-// Define the logos for the SEO tools
+// ✅ Filtered to only Screaming Frog, Ahrefs, and Google Analytics
 const toolkitLogos = [
-  { name: "google-analytics", src: "/logos/google-analytics.png" },
-  { name: "google-search-console", src: "/logos/google-search-console.png" },
-  { name: "ahrefs", src: "/logos/ahrefs.png" },
-  { name: "semrush", src: "/logos/semrush.png" },
-  { name: "moz", src: "/logos/moz.png" },
-  { name: "screaming-frog", src: "/logos/screaming-frog.png" },
+  { name: "gpt", src: "/logos/content/chatgpt.png" },
+  { name: "grammarly", src: "/logos/content/grammarly.png" },
+  { name: "clearscope", src: "/logos/content/clearscope.png" },
 ];
 
 export function ContentToolkits() {
   return (
-    <section className="py-10 lg:py-24 bg-gray-50 ">
-      <div className="container mx-auto">
-        {/* ✅ FIX: Main grid container for the 2-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-12 items-center">
+    <section className="py-15 bg-white">
+      <div className="container mx-auto px-5 md:px-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-          {/* Left Column (2/3 width): Logo Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 items-center lg:col-span-2 p-5 md:p-0 order-2 md:order-1">
-            {toolkitLogos.map((logo) => (
-              <div key={logo.name} className="relative h-20 flex justify-center">
-                <Image
-                  src={logo.src}
-                  alt={`${logo.name} logo`}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px"
-                  className="object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Right Column (1/3 width): Headline */}
-          <div className="text-center  lg:col-span-1 order-1 md:order-2">
-            <h2 className="text-3xl md:text-4xl font-regular font-heading text-primary">
+          {/* Left Column (8 Columns): Headline */}
+          <div className="lg:col-span-8 text-left">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-regular tracking-tighter text-primary leading-none">
               Our{" "}
               <span
                 className="bg-gradient-to-r from-[#FF0080] via-accent to-[#FF0080] bg-clip-text text-transparent animate-gradient font-semibold"
                 style={{ backgroundSize: "300% 100%" }}
               >
-                Content Marketing
+                Content Marketing Toolkit
               </span>
-              {" "}Toolkit
             </h2>
+            <p className="mt-6 text-muted-foreground text-lg max-w-xl font-medium">
+              We leverage industry-leading data platforms to ensure your strategy is backed by absolute precision.
+            </p>
+          </div>
+
+          {/* Right Column (4 Columns): Parallel Logos */}
+          <div className="lg:col-span-4 grid grid-cols-3 gap-8 items-center">
+            {toolkitLogos.map((logo) => (
+              <div key={logo.name} className="relative h-30 w-full flex justify-center group">
+                <Image
+                  src={logo.src}
+                  alt={`${logo.name} logo`}
+                  fill
+                  sizes="150px"
+                  className="object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                />
+              </div>
+            ))}
           </div>
 
         </div>
